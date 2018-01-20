@@ -1,2 +1,2 @@
-# EA_MTLGameJam2017
-Our mtl game jam submission for 2018
+# EA_MTLGameJam2018
+Our MTL GameJam submission for 2018
