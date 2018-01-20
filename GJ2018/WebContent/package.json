@@ -22,7 +22,9 @@
     "browser-sync-webpack-plugin": "^1.2.0",
     "expose-loader": "^0.7.4",
     "phaser": "^2.6.2",
-    "webfontloader": "^1.6.28",
+    "webfontloader": "^1.6.28"
+  },
+  "dependencies": {
     "webpack": "^3.10.0"
   }
 }
