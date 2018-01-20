@@ -7,42 +7,39 @@
 
 
 class Level extends Phaser.State {
-	
+
 	/**
 	 * Level.
 	 */
 	constructor() {
-		
+
 		super();
-		
+
 	}
-	
+
 	init() {
-		
+
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
 		this.stage.backgroundColor = '#ffffff';
-		
+
 	}
-	
-	preload () {
-		
+
+	preload() {
+
 	}
-	
+
 	create() {
-		this.add.text(344, 292, 'Hello world!', {"font":"bold 20px Arial"});
-		
-		
-		
-		
-		
+		this.add.text(344, 292, 'Hello world!', { "font": "bold 20px Arial" });
 	}
-	
+
 	/* state-methods-begin */
 	// -- user code here --
 	/* state-methods-end */
-	
+
 }
 /* --- end generated code --- */
 // -- user code here --
+
+export default Level
