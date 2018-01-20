@@ -4,7 +4,7 @@
   "description": "Our MTL GameJam submission for 2018",
   "main": "Main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack"
   },
   "repository": {
     "type": "git",
