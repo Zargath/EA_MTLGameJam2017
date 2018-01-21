@@ -20,3 +20,5 @@ export default class Game extends Phaser.Game {
     this.state.start('Level');
   }
 }
+
+window.game = new Game();

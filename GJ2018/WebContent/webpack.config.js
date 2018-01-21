@@ -41,7 +41,9 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'eslint-loader', include: path.join(__dirname, 'js'), enforce: 'pre' },
+      {
+        test: /\.js$/, loader: 'eslint-loader', include: path.join(__dirname, 'js'), enforce: 'pre'
+      },
       { test: /\.js$/, loader: 'babel-loader', include: path.join(__dirname, 'js') },
       { test: /pixi\.js/, loader: 'expose-loader?PIXI' },
       { test: /phaser-split\.js$/, loader: 'expose-loader?Phaser' },
