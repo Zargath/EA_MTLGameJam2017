@@ -1,0 +1,39 @@
+{
+  "name": "ea_mtlgamejam2018",
+  "version": "1.0.0",
+  "description": "Our MTL GameJam submission for 2018",
+  "main": "Main.js",
+  "scripts": {
+    "dev": "webpack",
+    "deploy": "webpack --config webpack.production.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://zargath@github.com/Zargath/EA_MTLGameJam2018.git"
+  },
+  "author": "Alexandre Sanscartier and Edouard Shaar",
+  "license": "MIT",
+  "homepage": "https://github.com/Zargath/EA_MTLGameJam2018#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.23.5",
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "expose-loader": "^0.7.4",
+    "webfontloader": "^1.6.28"
+  },
+  "dependencies": {
+    "phaser": "^2.6.2",
+    "webpack": "^3.10.0",
+    "browser-sync-webpack-plugin": "^1.2.0"
+  }
+}
