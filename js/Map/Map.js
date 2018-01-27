@@ -1,9 +1,9 @@
 import { random, last } from 'lodash';
 
 import Room from './Room';
-
-const Floor = '1';
-const Wall = '0';
+import TileInfo from './TileInfo';
+import Coordinate from './Coordinate';
+import { TileTypes } from '../Enum';
 
 export default class Map {
   constructor(width, height, maxRoomCount) {
@@ -16,15 +16,18 @@ export default class Map {
     this.rooms = [];
     this.map = [];
 
+    this.playerStartLocation = new Coordinate(0, 0);
+
     this.initMap();
     this.placeRooms();
+    this.setPlayerStartLocation();
   }
 
   initMap() {
     for (let i = 0; i < this.height; i++) {
       this.map.push([]);
       for (let j = 0; j < this.width; j++) {
-        this.map[i].push(Wall);
+        this.map[i].push(new TileInfo({ tileType: TileTypes.WALL }));
       }
     }
   }
@@ -62,6 +65,11 @@ export default class Map {
     }
   }
 
+  setPlayerStartLocation() {
+    const roomIndex = random(0, this.rooms.length - 1);
+    this.playerStartLocation = this.rooms[roomIndex].centerCoordinate;
+  }
+
   connectRooms(room1, room2) {
     if (room2 === null || room2 === undefined) {
       return;
@@ -83,17 +91,23 @@ export default class Map {
   }
 
   addFloorToMap(x, y) {
-    this.addToMap(x, y, 1, 1, Floor);
+    this.addToMap(x, y, 2, 2, new TileInfo({ tileType: TileTypes.FLOOR }));
   }
 
   addRoomToMap(room) {
-    this.addToMap(room.topCoordinate.x, room.topCoordinate.y, room.height, room.width, Floor);
+    this.addToMap(
+      room.topCoordinate.x,
+      room.topCoordinate.y,
+      room.height,
+      room.width,
+      new TileInfo({ tileType: TileTypes.FLOOR })
+    );
   }
 
-  addToMap(x, y, width, height, tileType) {
+  addToMap(x, y, width, height, tile) {
     for (let i = y; i < y + height; i++) {
       for (let j = x; j < x + width; j++) {
-        this.map[i][j] = tileType;
+        this.map[i][j] = tile;
       }
     }
   }
@@ -101,7 +115,7 @@ export default class Map {
   getCSV() {
     const lineArray = [];
     this.map.forEach((infoArray) => {
-      const line = infoArray.join(',');
+      const line = infoArray.map(element => element.spriteIndex).join(',');
       lineArray.push(line);
     });
 

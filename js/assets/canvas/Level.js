@@ -1,7 +1,10 @@
 // -- user code here --
 import Hud from '../../Hud';
 import Map from '../../Map/Map';
+import Player from '../sprites/player';
+
 import tiles from '../tiles.png';
+import Characters from '../characters';
 
 /* --- start generated code --- */
 
@@ -31,9 +34,9 @@ class Level extends Phaser.State {
 
 	}
 
-	preload () {
+	preload() {
 
-		this.load.image('tiles', tiles);
+		this.preloadImages();
 
 	}
 
@@ -42,19 +45,17 @@ class Level extends Phaser.State {
 	}
 
 	/* state-methods-begin */
-	update() {
-		this.Hud.update();
-		if (this.cursors.left.isDown) {
-			this.camera.x -= 5;
-		} else if (this.cursors.right.isDown) {
-			this.camera.x += 5;
-		}
+	render() {
+		// this.game.debug.body(this.player);
+	}
 
-		if (this.cursors.up.isDown) {
-			this.camera.y -= 5;
-		} else if (this.cursors.down.isDown) {
-			this.camera.y += 5;
-		}
+	update() {
+		this.game.physics.arcade.collide(this.player, this.layer);
+	}
+
+	preloadImages() {
+		this.game.load.image('tiles', tiles);
+		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
 	customCreate() {
@@ -62,13 +63,17 @@ class Level extends Phaser.State {
 		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
-		const layer = map.createLayer(0);
-		layer.resizeWorld();
+		this.layer = map.createLayer(0);
+		this.layer.resizeWorld();
+		map.setCollisionBetween(1, 1);
 
 		this.Hud = new Hud(this.game);
-		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
-		this.cursors = this.input.keyboard.createCursorKeys();
+		// Add player
+		const playerLoc = mapData.playerStartLocation.getPixelLocation();
+		this.player = new Player({ game: this.game, x: playerLoc.x, y: playerLoc.y });
+		this.game.camera.follow(this.player);
+		this.game.add.existing(this.player);
 	}
 	/* state-methods-end */
 

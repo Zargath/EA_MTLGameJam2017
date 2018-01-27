@@ -21,7 +21,7 @@
     "showGrid": true,
     "create_after": "this.customCreate();",
     "state_constructor_after": "this.cursors = null;",
-    "state_preload_before": "this.load.image('tiles', tiles);"
+    "state_preload_before": "this.preloadImages();"
   },
   "stateSettings": {
     "scaleMode": "SHOW_ALL",
