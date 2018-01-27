@@ -3,7 +3,7 @@ import Hud from '../../Hud';
 import Map from '../../Map/Map';
 import Player from '../sprites/player';
 
-import tiles from '../tiles.png';
+import tiles from '../tiles_x.png';
 import Characters from '../characters';
 
 /* --- start generated code --- */
