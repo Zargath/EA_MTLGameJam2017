@@ -27,14 +27,14 @@ export default class MessageContainer extends BaseDrawableObject {
     this.letterIndex = 0;
     this.wordIndex = 0;
 
-    this.graphics.visibie = false;
+    this.graphics = this.game.add.graphics(0, 0);
+    this.graphics.alpha = 0.5;
     this.graphics.lineStyle(2, 0x0000FF, 1);
-    this.graphics.beginFill(0xFFFFFF);
+    this.graphics.beginFill(0x000000);
     this.graphics.drawRect(this.x, this.y, this.width, this.height);
 
     const style = { font: `${Settings.FontSize()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
     this.text = this.game.add.text(this.x + 2, this.y + 2, '', style);
-    this.text.visibie = false;
     this.text3 = this.game.add.text(this.x + 2, this.y + 2, '', style);
 
     this.text3.alpha = 0;
@@ -63,11 +63,10 @@ export default class MessageContainer extends BaseDrawableObject {
     this.letterIndex = 0;
     this.wordIndex = 0;
 
+    this.graphics.alpha = 0.5;
+
     this.text.text = '';
     this.text3.text = '';
-
-    this.text.alpha = 1;
-    this.graphics.alpha = 1;
 
     this.timer = this.game.time.create(true);
     this.messageTimedEvent = this.timer.loop(20, this.nextLetter, this);
@@ -76,7 +75,12 @@ export default class MessageContainer extends BaseDrawableObject {
 
   update() {
     if (this.enterKey.isDown && this.isDoneDisplaying) {
-      this.displayMessage(this.queue.dequeue());
+      if (!this.queue.isEmpty()) {
+        this.displayMessage(this.queue.dequeue());
+      } else {
+        this.graphics.alpha = 0;
+        this.text.alpha = 0;
+      }
     }
   }
 
