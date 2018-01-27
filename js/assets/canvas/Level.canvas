@@ -19,7 +19,9 @@
       200
     ],
     "showGrid": true,
-    "create_after": "\r\n\r\n"
+    "create_after": "this.customCreate();",
+    "state_constructor_after": "this.cursors = null;",
+    "state_preload_before": "this.load.image('tiles', tiles);"
   },
   "stateSettings": {
     "scaleMode": "SHOW_ALL",
@@ -41,16 +43,7 @@
     "info": {
       "editorName": "Level",
       "setAll": [],
-      "children": [{
-        "type": "text",
-        "id": "6d3d5de8-b45f-43e7-a5e6-830751fe0346",
-        "info": {
-          "editorName": "text",
-          "x": 343.9580078125,
-          "y": 292.224609375,
-          "text": "Hello Global Game Jam!"
-        }
-      }]
+      "children": []
     }
   },
   "type": "STATE",

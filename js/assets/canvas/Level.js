@@ -1,5 +1,8 @@
 // -- user code here --
 import Hud from '../../Hud';
+import Map from '../../Map/Map';
+
+import tiles from '../tiles.png';
 
 /* --- start generated code --- */
 
@@ -7,39 +10,66 @@ import Hud from '../../Hud';
 
 
 class Level extends Phaser.State {
-
+	
 	/**
 	 * Level.
 	 */
 	constructor() {
-
+		
 		super();
-
+		
+		
+		this.cursors = null;
+		
 	}
-
+	
 	init() {
+		
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
 		this.stage.backgroundColor = '#ffffff';
-
+		
 	}
-
-	preload() {
-
+	
+	preload () {
+		
+		this.load.image('tiles', tiles);
+		
 	}
-
+	
 	create() {
-    this.Hud = new Hud(this);
+		this.customCreate();
+		
+	}
+	
+	/* state-methods-begin */
+	update() {
+		if (this.cursors.left.isDown) {
+			this.camera.x -= 5;
+		} else if (this.cursors.right.isDown) {
+			this.camera.x += 5;
+		}
 
-
-
+		if (this.cursors.up.isDown) {
+			this.camera.y -= 5;
+		} else if (this.cursors.down.isDown) {
+			this.camera.y += 5;
+		}
 	}
 
-	/* state-methods-begin */
-	// -- user code here --
-	/* state-methods-end */
+	customCreate() {
+		const mapData = new Map(128, 128, 25);
+		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
+		const map = this.add.tilemap('dynamicMap', 32, 32);
+		map.addTilesetImage('tiles', 'tiles', 32, 32);
+		const layer = map.createLayer(0);
+		layer.resizeWorld();
 
+		this.cursors = this.input.keyboard.createCursorKeys();
+	}
+	/* state-methods-end */
+	
 }
 /* --- end generated code --- */
 export default Level

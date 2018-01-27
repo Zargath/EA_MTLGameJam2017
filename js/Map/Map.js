@@ -2,14 +2,14 @@ import { random, last } from 'lodash';
 
 import Room from './Room';
 
-const Floor = '';
-const Wall = 'W';
+const Floor = '1';
+const Wall = '0';
 
 export default class Map {
   constructor(width, height, maxRoomCount) {
     this.maxRoomCount = maxRoomCount;
-    this.minRoomSize = 3;
-    this.maxRoomSize = 5;
+    this.minRoomSize = 9;
+    this.maxRoomSize = 15;
 
     this.width = width + this.maxRoomSize;
     this.height = height + this.maxRoomSize;
@@ -70,14 +70,14 @@ export default class Map {
     const statingX = Math.min(room1.centerCoordinate.x, room2.centerCoordinate.x);
     const endingX = Math.max(room1.centerCoordinate.x, room2.centerCoordinate.x);
 
-    for (let x = statingX; x < endingX; x++) {
+    for (let x = statingX; x <= endingX; x++) {
       this.addFloorToMap(x, room1.centerCoordinate.y);
     }
 
     const statingY = Math.min(room1.centerCoordinate.y, room2.centerCoordinate.y);
     const endingY = Math.max(room1.centerCoordinate.y, room2.centerCoordinate.y);
 
-    for (let y = statingY; y < endingY; y++) {
+    for (let y = statingY; y <= endingY; y++) {
       this.addFloorToMap(room2.centerCoordinate.x, y);
     }
   }
@@ -96,6 +96,16 @@ export default class Map {
         this.map[i][j] = tileType;
       }
     }
+  }
+
+  getCSV() {
+    const lineArray = [];
+    this.map.forEach((infoArray) => {
+      const line = infoArray.join(',');
+      lineArray.push(line);
+    });
+
+    return lineArray.join('\n');
   }
 
   debug() {
