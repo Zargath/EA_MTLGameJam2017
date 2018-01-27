@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 // Phaser webpack config
 const phaserModule = path.join(__dirname, '/node_modules/phaser/');
@@ -27,27 +26,20 @@ module.exports = {
     publicPath: './dist/',
     filename: 'bundle.js'
   },
-  watch: false,
   plugins: [
     definePlugin,
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
-    new BrowserSyncPlugin({
-      host: process.env.IP || 'localhost',
-      port: process.env.PORT || 3000,
-      server: {
-        baseDir: ['./', './build']
-      }
-    })
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' })
   ],
   module: {
     loaders: [
-      {
-        test: /\.js$/, loader: 'eslint-loader', include: path.join(__dirname, 'js'), enforce: 'pre'
-      },
       { test: /\.js$/, loader: 'babel-loader', include: path.join(__dirname, 'js') },
       { test: /pixi\.js/, loader: 'expose-loader?PIXI' },
       { test: /phaser-split\.js$/, loader: 'expose-loader?Phaser' },
-      { test: /p2\.js/, loader: 'expose-loader?p2' }
+      { test: /p2\.js/, loader: 'expose-loader?p2' },
+      {
+        test: /\.(png|jpg|gif|svg|pvr|pkm)$/,
+        use: ['file-loader?name=assets/[name].[ext]?[hash]']
+      }
     ]
   },
   node: {

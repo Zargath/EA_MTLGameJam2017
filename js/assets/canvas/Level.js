@@ -5,7 +5,7 @@ import MessageManager from '../../Managers/MessageManager';
 import Player from '../sprites/player';
 import { IntroductionText }  from '../../Text'
 
-import tiles from '../tiles.png';
+import tiles from '../tiles_x.png';
 import Characters from '../characters';
 
 /* --- start generated code --- */
