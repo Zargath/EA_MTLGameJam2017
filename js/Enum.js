@@ -1,16 +1,16 @@
+const Colors = {
+  RED: 'red',
+  BLUE: 'blue',
+  GREEN: 'green',
+  YELLOW: 'yellow'
+};
 
-export default class Enum {
-  constructor() {
-    this.Colors = {
-      RED: Symbol('red'),
-      BLUE: Symbol('blue'),
-      GREEN: Symbol('green'),
-      YELLOW: Symbol('yellow')
-    };
-    Object.freeze(this.Colors);
-  }
+const TileTypes = {
+  FLOOR: 'floor',
+  WALL: 'wall'
+};
 
-  Colors() {
-    return this.Colors;
-  }
-}
+export {
+  Colors,
+  TileTypes
+};
