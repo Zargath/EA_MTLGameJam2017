@@ -1,7 +1,6 @@
 // -- user code here --
 import Hud from '../../Hud';
 import Map from '../../Map/Map';
-
 import tiles from '../tiles.png';
 
 /* --- start generated code --- */
@@ -39,16 +38,12 @@ class Level extends Phaser.State {
 	}
 
 	create() {
-
-    this.Hud = new Hud(this);
-		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
 		this.customCreate();
-
 	}
 
 	/* state-methods-begin */
 	update() {
+		this.Hud.update();
 		if (this.cursors.left.isDown) {
 			this.camera.x -= 5;
 		} else if (this.cursors.right.isDown) {
@@ -69,6 +64,9 @@ class Level extends Phaser.State {
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
 		const layer = map.createLayer(0);
 		layer.resizeWorld();
+
+		this.Hud = new Hud(this.game);
+		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 	}

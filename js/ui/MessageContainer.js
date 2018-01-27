@@ -1,12 +1,16 @@
 import Settings from '../Settings';
+import BaseDrawableObject from './BaseDrawableObject';
 
-export default class MessageContainer {
-  constructor(game, x, y, width, height, message, autmaticScroll) {
+// TODO After game jam refactor this class to seperate the logic of the autmaticScroll
+// from the logic of drawing on screen. Add the abilty to have a character's portrait
+// In the text as well by extending this class
+export default class MessageContainer extends BaseDrawableObject {
+  constructor(game, graphics, x, y, width, height, message, autmaticScroll) {
+    super(game, graphics);
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.game = game;
     this.words = MessageContainer.splitWords(message);
     this.canHandleInput = false;
 
@@ -18,19 +22,18 @@ export default class MessageContainer {
     this.letterIndex = 0;
     this.wordIndex = 0;
 
-    const graphics = game.add.graphics(0, 0);
-    graphics.lineStyle(2, 0x0000FF, 1);
-    graphics.drawRect(this.x, this.y, this.width, this.height);
+    this.graphics.lineStyle(2, 0x0000FF, 1);
+    this.graphics.beginFill(0xFFFFFF);
+    this.graphics.drawRect(this.x, this.y, this.width, this.height);
 
     const style = { font: `${Settings.FontSize()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
     this.text = this.game.add.text(this.x + 2, this.y + 2, '', style);
     this.text3 = this.game.add.text(this.x + 2, this.y + 2, '', style);
 
     this.text3.alpha = 0;
-    this.text.fixedToCamera = true;
 
     this.timer = game.time.create(false);
-    this.messageTimedEvent = this.timer.loop(50, this.nextLetter, this);
+    this.messageTimedEvent = this.timer.loop(20, this.nextLetter, this);
     this.timer.start();
   }
 
@@ -44,6 +47,7 @@ export default class MessageContainer {
     }
   }
 
+  // Automatic write the words letter by letter
   nextLetter() {
     this.currentWord = this.words[this.wordIndex];
 
@@ -92,6 +96,7 @@ export default class MessageContainer {
     }
   }
 
+  // automatically print paragraphs word by word
   nextWord() {
     this.currentWord = this.words[this.wordIndex];
     // Check to make sure we haven't hit the end of our message yet
@@ -130,6 +135,12 @@ export default class MessageContainer {
     }
   }
 
+  fixedToCamera(fixedToCamera) {
+    this.text.fixedToCamera = fixedToCamera;
+    this.graphics.fixedToCamera = fixedToCamera;
+  }
+
+  // split the text into words array
   static splitWords(text) {
     const words = text.split(' ');
     return words;
