@@ -110,10 +110,10 @@ fi
 selectNodeVersion
 
 # 3. Install npm packages
+echo "Force insall webpack globally!"
+eval $NPM_CMD install webpack -g --silent
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  cd "$DEPLOYMENT_TARGET"
-  echo "Installing npm packages."
-  eval $NPM_CMD prune
+  cd "$DEPLOYMENT_TARGET"  
   eval $NPM_CMD install
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
