@@ -1,5 +1,5 @@
-
 // -- user code here --
+import Hud from '../../Hud';
 
 /* --- start generated code --- */
 
@@ -30,9 +30,7 @@ class Level extends Phaser.State {
 	}
 
 	create() {
-		this.add.text(344, 292, 'Hello Global Game Jam!', { "font": "bold 20px Arial" });
-
-
+    this.Hud = new Hud(this);
 
 
 

@@ -7,7 +7,14 @@ export default class MessageManager {
     this.messageQueue = new Queue();
   }
 
-  QueueMessage(message) {
+  queueMessage(message) {
     this.messageQueue.enqueue(message);
+  }
+
+  displayMessage() {
+    // Checks that the message hud is empty before displaying the message on screen
+    if (!this.hud.isDisplayingMessage()) {
+      this.hud.displayMessage(this.messageQueue.dequeue());
+    }
   }
 }

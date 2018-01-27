@@ -14,8 +14,4 @@ export default class TransportPiece extends GameObject {
       this.color = color;
     }
   }
-
-  onAcquired() {
-    this.game.MessageManager;
-  }
 }
