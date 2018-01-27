@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import Settings from '../Settings';
 import BaseDrawableObject from './BaseDrawableObject';
 
@@ -11,44 +12,71 @@ export default class MessageContainer extends BaseDrawableObject {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.words = MessageContainer.splitWords(message);
-    this.canHandleInput = false;
+    this.words = '';
 
     this.lines = [];
     this.currentWord = '';
     this.timer = undefined;
 
+    this.isWaitingForInput = false;
+    this.isDoneDisplaying = true;
+
     this.automaticScroll = autmaticScroll;
     this.letterIndex = 0;
     this.wordIndex = 0;
 
+    this.graphics.visibie = false;
     this.graphics.lineStyle(2, 0x0000FF, 1);
     this.graphics.beginFill(0xFFFFFF);
     this.graphics.drawRect(this.x, this.y, this.width, this.height);
 
     const style = { font: `${Settings.FontSize()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
     this.text = this.game.add.text(this.x + 2, this.y + 2, '', style);
+    this.text.visibie = false;
     this.text3 = this.game.add.text(this.x + 2, this.y + 2, '', style);
 
     this.text3.alpha = 0;
 
-    this.timer = game.time.create(false);
+    this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+  }
+
+  displayMessage(text) {
+    if (this.timer !== undefined) {
+      this.timer.remove();
+    }
+    this.words = MessageContainer.splitWords(text);
+    this.lines = [];
+    this.currentWord = '';
+    this.timer = undefined;
+    this.isDoneDisplaying = false;
+
+    this.letterIndex = 0;
+    this.wordIndex = 0;
+
+    this.text.text = '';
+    this.text3.text = '';
+
+    this.text.alpha = 1;
+    this.graphics.alpha = 1;
+
+    this.timer = this.game.time.create(true);
     this.messageTimedEvent = this.timer.loop(20, this.nextLetter, this);
     this.timer.start();
   }
 
   update() {
-    if (this.canHandleInput) {
-      this.canHandleInput = false;
-      this.text.text = '';
-      this.text3.text = '';
-      this.lineIndex = 1;
-      this.timer.resume();
+    if (this.enterKey.isDown && this.isWaitingForInput) {
+      this.isWaitingForInput = false;
     }
+  }
+
+  canAcceptNextMessage() {
+    return !this.isDoneDisplaying && !this.isWaitingForInput;
   }
 
   // Automatic write the words letter by letter
   nextLetter() {
+    this.isWaitingForInput = true;
     this.currentWord = this.words[this.wordIndex];
 
     // Check to make sure we haven't hit the end of our message yet
@@ -93,11 +121,13 @@ export default class MessageContainer extends BaseDrawableObject {
       }
     } else {
       this.timer.stop();
+      this.isDoneDisplaying = true;
     }
   }
 
   // automatically print paragraphs word by word
   nextWord() {
+    this.isWaitingForInput = true;
     this.currentWord = this.words[this.wordIndex];
     // Check to make sure we haven't hit the end of our message yet
     if (this.words.length > this.wordIndex) {
@@ -132,6 +162,7 @@ export default class MessageContainer extends BaseDrawableObject {
       }
     } else {
       this.timer.stop();
+      this.isDoneDisplaying = true;
     }
   }
 

@@ -1,7 +1,9 @@
 // -- user code here --
 import Hud from '../../Hud';
 import Map from '../../Map/Map';
+import MessageManager from '../../Managers/MessageManager';
 import Player from '../sprites/player';
+import { IntroductionText }  from '../../Text'
 
 import tiles from '../tiles.png';
 import Characters from '../characters';
@@ -51,7 +53,6 @@ class Level extends Phaser.State {
 
 	update() {
 		this.game.physics.arcade.collide(this.player, this.layer);
-		this.Hud.update();
 	}
 
 	preloadImages() {
@@ -69,6 +70,10 @@ class Level extends Phaser.State {
 		map.setCollisionBetween(1, 1);
 
 		this.Hud = new Hud(this.game);
+		this.messageManager = new MessageManager(game, this.Hud);
+		for(let i = 0; i < IntroductionText.length; i += 1) {
+			this.messageManager.queueMessage(IntroductionText[i]);
+		}
 
 		// Add player
 		const playerLoc = mapData.playerStartLocation.getPixelLocation();
