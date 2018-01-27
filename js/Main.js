@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 
 import Level from './assets/canvas/Level';
-import Map from './Map/Map';
 
 export default class Game extends Phaser.Game {
   constructor() {
@@ -19,9 +18,6 @@ export default class Game extends Phaser.Game {
     this.state.add('Level', Level);
 
     this.state.start('Level');
-
-    const map = new Map(20, 20, 5);
-    map.debug();
   }
 }
 

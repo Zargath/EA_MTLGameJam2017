@@ -31,13 +31,17 @@ class Level extends Phaser.State {
 
 	create() {
     this.Hud = new Hud(this);
-
+		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
 
 	}
 
 	/* state-methods-begin */
-	// -- user code here --
+	update() {
+		if(this.enterKey.isDown) {
+			this.Hud.update();
+		}
+	}
 	/* state-methods-end */
 
 }
