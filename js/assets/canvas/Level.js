@@ -51,6 +51,7 @@ class Level extends Phaser.State {
 
 	update() {
 		this.game.physics.arcade.collide(this.player, this.layer);
+		this.Hud.update();
 	}
 
 	preloadImages() {
