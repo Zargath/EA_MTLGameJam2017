@@ -1,8 +1,10 @@
 // -- user code here --
 import Hud from '../../Hud';
 import Map from '../../Map/Map';
+import Player from '../sprites/player';
 
 import tiles from '../tiles.png';
+import Characters from '../characters';
 
 /* --- start generated code --- */
 
@@ -10,56 +12,47 @@ import tiles from '../tiles.png';
 
 
 class Level extends Phaser.State {
-
+	
 	/**
 	 * Level.
 	 */
 	constructor() {
-
+		
 		super();
-
-
+		
+		
 		this.cursors = null;
-
+		
 	}
-
+	
 	init() {
-
+		
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
 		this.stage.backgroundColor = '#ffffff';
-
+		
 	}
-
+	
 	preload () {
-
-		this.load.image('tiles', tiles);
-
+		
+		this.preloadImages();
+		
 	}
-
+	
 	create() {
-
-    this.Hud = new Hud(this);
-		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-
 		this.customCreate();
-
+		
+	}
+	
+	/* state-methods-begin */
+	render() {
+		// this.game.debug.body(this.player);
 	}
 
-	/* state-methods-begin */
-	update() {
-		if (this.cursors.left.isDown) {
-			this.camera.x -= 5;
-		} else if (this.cursors.right.isDown) {
-			this.camera.x += 5;
-		}
-
-		if (this.cursors.up.isDown) {
-			this.camera.y -= 5;
-		} else if (this.cursors.down.isDown) {
-			this.camera.y += 5;
-		}
+	preloadImages() {
+		this.game.load.image('tiles', tiles);
+		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
 	customCreate() {
@@ -70,10 +63,13 @@ class Level extends Phaser.State {
 		const layer = map.createLayer(0);
 		layer.resizeWorld();
 
-		this.cursors = this.input.keyboard.createCursorKeys();
+		// Add player
+		this.player = new Player({ game: this.game, x: 32, y: 32 });
+		this.game.camera.follow(this.player);
+		this.game.add.existing(this.player);
 	}
 	/* state-methods-end */
-
+	
 }
 /* --- end generated code --- */
 export default Level
