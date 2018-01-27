@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Settings from '../Settings';
 import BaseDrawableObject from './BaseDrawableObject';
+import Queue from '../DataStorage/Queue';
 
 // TODO After game jam refactor this class to seperate the logic of the autmaticScroll
 // from the logic of drawing on screen. Add the abilty to have a character's portrait
@@ -14,11 +15,12 @@ export default class MessageContainer extends BaseDrawableObject {
     this.height = height;
     this.words = '';
 
+    this.queue = new Queue();
     this.lines = [];
     this.currentWord = '';
     this.timer = undefined;
 
-    this.isWaitingForInput = false;
+    this.isFirstAdd = true;
     this.isDoneDisplaying = true;
 
     this.automaticScroll = autmaticScroll;
@@ -38,6 +40,14 @@ export default class MessageContainer extends BaseDrawableObject {
     this.text3.alpha = 0;
 
     this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+  }
+
+  addMessageToQueue(text) {
+    this.queue.enqueue(text);
+    if (this.isFirstAdd) {
+      this.displayMessage(this.queue.dequeue());
+    }
+    this.isFirstAdd = false;
   }
 
   displayMessage(text) {
@@ -65,18 +75,13 @@ export default class MessageContainer extends BaseDrawableObject {
   }
 
   update() {
-    if (this.enterKey.isDown && this.isWaitingForInput) {
-      this.isWaitingForInput = false;
+    if (this.enterKey.isDown && this.isDoneDisplaying) {
+      this.displayMessage(this.queue.dequeue());
     }
-  }
-
-  canAcceptNextMessage() {
-    return !this.isDoneDisplaying && !this.isWaitingForInput;
   }
 
   // Automatic write the words letter by letter
   nextLetter() {
-    this.isWaitingForInput = true;
     this.currentWord = this.words[this.wordIndex];
 
     // Check to make sure we haven't hit the end of our message yet
@@ -127,7 +132,6 @@ export default class MessageContainer extends BaseDrawableObject {
 
   // automatically print paragraphs word by word
   nextWord() {
-    this.isWaitingForInput = true;
     this.currentWord = this.words[this.wordIndex];
     // Check to make sure we haven't hit the end of our message yet
     if (this.words.length > this.wordIndex) {

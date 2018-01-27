@@ -27,11 +27,7 @@ export default class Hud {
     this.clock.update();
   }
 
-  isDisplayingMessage() {
-    return this.mc.canAcceptNextMessage();
-  }
-
-  displayMessage(message) {
-    this.mc.displayMessage(message);
+  addMessageToQueue(text) {
+    this.mc.addMessageToQueue(text);
   }
 }
