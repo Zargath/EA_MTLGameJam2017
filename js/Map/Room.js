@@ -20,9 +20,4 @@ export default class Room {
       this.topCoordinate.y <= room.bottomCoordinate.y &&
       this.bottomCoordinate.y >= room.topCoordinate.y;
   }
-
-  doesRoomFitOnMap(map) {
-    return map.height > (this.height + this.bottomCoordinate.y) + 1
-      && map.width > (this.width + this.bottomCoordinate.x) + 1;
-  }
 }

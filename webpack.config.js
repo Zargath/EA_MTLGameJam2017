@@ -47,7 +47,11 @@ module.exports = {
       { test: /\.js$/, loader: 'babel-loader', include: path.join(__dirname, 'js') },
       { test: /pixi\.js/, loader: 'expose-loader?PIXI' },
       { test: /phaser-split\.js$/, loader: 'expose-loader?Phaser' },
-      { test: /p2\.js/, loader: 'expose-loader?p2' }
+      { test: /p2\.js/, loader: 'expose-loader?p2' },
+      {
+        test: /\.(png|jpg|gif|svg|pvr|pkm)$/,
+        use: ['file-loader?name=assets/[name].[ext]?[hash]']
+      }
     ]
   },
   node: {

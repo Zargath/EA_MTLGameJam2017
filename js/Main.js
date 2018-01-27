@@ -6,9 +6,9 @@ export default class Game extends Phaser.Game {
   constructor() {
     super(800, 600, Phaser.AUTO, '', null, false, true, {
       arcade: true,
-      matter: true,
-      p2: true,
-      ninja: true
+      matter: false,
+      p2: false,
+      ninja: false
     });
 
     // Add the States your game has.

@@ -1,5 +1,8 @@
 // -- user code here --
 import Hud from '../../Hud';
+import Map from '../../Map/Map';
+
+import tiles from '../tiles.png';
 
 /* --- start generated code --- */
 
@@ -15,9 +18,13 @@ class Level extends Phaser.State {
 
 		super();
 
+
+		this.cursors = null;
+
 	}
 
 	init() {
+
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
@@ -25,22 +32,45 @@ class Level extends Phaser.State {
 
 	}
 
-	preload() {
+	preload () {
+
+		this.load.image('tiles', tiles);
 
 	}
 
 	create() {
+
     this.Hud = new Hud(this);
 		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
+		this.customCreate();
 
 	}
 
 	/* state-methods-begin */
 	update() {
-		if(this.enterKey.isDown) {
-			this.Hud.update();
+		if (this.cursors.left.isDown) {
+			this.camera.x -= 5;
+		} else if (this.cursors.right.isDown) {
+			this.camera.x += 5;
 		}
+
+		if (this.cursors.up.isDown) {
+			this.camera.y -= 5;
+		} else if (this.cursors.down.isDown) {
+			this.camera.y += 5;
+		}
+	}
+
+	customCreate() {
+		const mapData = new Map(128, 128, 25);
+		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
+		const map = this.add.tilemap('dynamicMap', 32, 32);
+		map.addTilesetImage('tiles', 'tiles', 32, 32);
+		const layer = map.createLayer(0);
+		layer.resizeWorld();
+
+		this.cursors = this.input.keyboard.createCursorKeys();
 	}
 	/* state-methods-end */
 
