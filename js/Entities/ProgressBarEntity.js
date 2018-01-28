@@ -11,7 +11,9 @@ export default class ProgressBarEntity {
   }
 
   setPosition(position) {
-    this.position = position;
+    if (position < 1) {
+      this.position = position;
+    }
   }
 
   getPosition() {
@@ -19,7 +21,11 @@ export default class ProgressBarEntity {
   }
 
   setStartPosition(startPosition) {
-    this.startPosition = startPosition;
+    if (startPosition < 1) {
+      this.startPosition = startPosition;
+    } else {
+      this.startPosition = 1;
+    }
   }
 
   getStartPosition() {

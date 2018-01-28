@@ -30,8 +30,8 @@ export default class Clock extends BaseDrawableObject {
 
   static PrettyPrintClock(timeElapsed) {
     const timeElapsedInSeconds = timeElapsed / 1000;
-    const seconds = Math.round(timeElapsedInSeconds % 60);
-    const minutes = Math.round(timeElapsedInSeconds / 60);
+    const seconds = Math.round(timeElapsedInSeconds % 59);
+    const minutes = Math.ceil((timeElapsedInSeconds / 59) - 1);
     return `${leftPadZero(2, minutes)}:${leftPadZero(2, seconds)}`;
   }
 }

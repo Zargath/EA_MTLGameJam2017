@@ -34,20 +34,20 @@ export const TextLoneliness50 = [
 ];
 
 export const TextLoneliness25 = [
-  'Me: How about we play a little game?',
-  'Also Me: Sure what game?',
-  'Siri: I detect a high probability of mental breakdown'
+  'Siri: I detect a high probability of mental breakdown.',
+  'Me: Maybe you should shut yourself down for now.',
+  'Siri: I wasn\'t talking about me...'
 ];
 
 export const TextLoneliness10 = [
-  'Me: I think I\'ll end up dying alone on this planet...',
-  'Siri: ...',
-  'Me: ...'
+  'Me: Hey Siri what\'s the weather like?',
+  'Siri: Unable to connect to Earth please try again later.'
 ];
 
 export const TextLoneliness5 = [
-  'Me: Hey Siri what\'s the weather like?',
-  'Siri: Unable to connect to Earth please try again later'
+  'Me: I think I\'ll end up dying alone on this planet...',
+  'Siri: ...',
+  'Me: ...'
 ];
 
 export const TextLoneliness2 = [
