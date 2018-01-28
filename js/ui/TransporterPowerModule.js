@@ -76,10 +76,10 @@ export default class TransporterPowerModule extends BaseDrawableObject {
 
   show() {
     this.isHidden = false;
-    this.container.alpha = 1;
-    this.textHeader.alpha = 1;
+    this.container.alpha = 0.5;
+    this.textHeader.alpha = 0.8;
     this.powerText.alpha = 1;
-    this.arrow.alpha = 1;
+    this.arrow.alpha = 0.8;
     this.transporterSlots.alpha = 1;
   }
 
