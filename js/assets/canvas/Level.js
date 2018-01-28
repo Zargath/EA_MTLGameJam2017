@@ -3,10 +3,12 @@ import Hud from '../../Hud';
 import TileMap from '../../Map/TileMap';
 import Player from '../sprites/player';
 import Gem from '../sprites/gem';
+import Transporter from '../sprites/transporter';
 import { IntroductionText } from '../../Text'
 
 import tiles from '../tiles_x.png';
 import gems from '../gems.png';
+import transporter from '../transporter.png';
 import Characters from '../characters';
 
 /* --- start generated code --- */
@@ -50,16 +52,19 @@ class Level extends Phaser.State {
 	/* state-methods-begin */
 	render() {
 		// this.game.debug.body(this.player);
+		// this.game.debug.body(this.transporter);
 		// this.game.debug.spriteInfo(this.player, 32, 32);
 	}
 
 	update() {
 		this.game.physics.arcade.collide(this.player, this.layer);
+		this.game.physics.arcade.collide(this.player, this.transporter);
 		this.Hud.update();
 	}
 
 	preloadImages() {
 		this.game.load.image('tiles', tiles);
+		this.game.load.image('transporter', transporter);
 		this.game.load.spritesheet('gems', gems, 32, 32);
 		this.game.load.spritesheet('help', 'js/assets/help.png', 40, 20)
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
@@ -87,6 +92,11 @@ class Level extends Phaser.State {
 		this.player = new Player({ game: this.game, x: playerLoc.x, y: playerLoc.y });
 		this.game.camera.follow(this.player);
 		this.game.add.existing(this.player);
+
+		// Add Transporter
+		const transporterLoc = mapData.transporterLocation.getPixelLocation();
+		this.transporter = new Transporter({ game: game, x: transporterLoc.x, y: transporterLoc.y });
+		this.game.add.existing(this.transporter);
 
 		this.Hud = new Hud(this.game);
 		for (let i = 0; i < IntroductionText.length; i += 1) {

@@ -33,5 +33,6 @@ export default class Gem extends Phaser.Sprite {
   setupGem() {
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.setSize(32, 32);
+    this.body.immovable = true;
   }
 }

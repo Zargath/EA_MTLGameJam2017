@@ -21,6 +21,7 @@ export default class TileMap {
     this.map = [];
 
     this.playerStartLocation = new Coordinate(0, 0);
+    this.transporterLocation = new Coordinate(0, 0);
 
     this.initMap();
     this.initGemCount();
@@ -109,6 +110,11 @@ export default class TileMap {
       return true;
     }
 
+    if ((loc.x === this.transporterLocation.x + 1 || loc.x === this.transporterLocation.x) &&
+      loc.y === this.transporterLocation.y) {
+      return true;
+    }
+
     let gemExists = false;
     this.gems.forEach((gem) => {
       gemExists = loc.x === gem.location.x && loc.y === gem.location.y;
@@ -133,6 +139,8 @@ export default class TileMap {
   setPlayerStartLocation() {
     const roomIndex = random(0, this.rooms.length - 1);
     const room = this.rooms[roomIndex];
+
+    this.transporterLocation = room.centerCoordinate;
 
     let locInUse = false;
     do {
