@@ -17,7 +17,7 @@ export const IntroductionText = [
   'Siri: I wasn\'t talking to you.',
   'Siri: Also your bag can only hold six crystals...',
   'Me: But I don\'t even have a bag...!',
-  'Siri: Again wasn\'t talking to you'
+  'Siri: Again wasn\'t talking to you.'
 ];
 
 export const HelpText = [
