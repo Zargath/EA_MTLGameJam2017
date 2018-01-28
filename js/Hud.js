@@ -17,6 +17,7 @@ export default class Hud {
     this.mc = new MessageContainer(this.game, this.graphics, 200, 380, 400, 200, '', true, this);
     this.bag = new Bag(this.game, this.graphics, 20, 460, 2, 3);
     this.transporterPowerModule = new TransporterPowerModule(this.game, this.graphics, this.bag);
+    this.transporterPowerModule.hide();
     this.clock.fixedToCamera(true);
     this.mc.fixedToCamera(true);
     this.pb.fixedToCamera(true);
