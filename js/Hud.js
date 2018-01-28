@@ -13,7 +13,7 @@ export default class Hud {
     this.createTopAnchor();
     this.clock = new Clock(this.game, this.graphics, 600, 40 / 5);
     this.pb = new LonelinessBar(this.game, this.graphics, 10, 10, 300, 12, this);
-    this.mc = new MessageContainer(this.game, this.graphics, 200, 380, 400, 200, '', true);
+    this.mc = new MessageContainer(this.game, this.graphics, 200, 380, 400, 200, '', true, this);
     this.bag = new Bag(this.game, this.graphics, 20, 460, 2, 3);
     this.clock.fixedToCamera(true);
     this.mc.fixedToCamera(true);

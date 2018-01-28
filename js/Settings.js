@@ -5,6 +5,8 @@ const Header4Size = 16;
 const FontSize = 20;
 const HUDFontSize = 12;
 const FontColor = '#ff00ff';
+const GameoverFontColor = '#C11B17';
+const GameoverFontSize = '60';
 const FontStyle = 'Arial';
 const ProgressBarForeground = '2B4666';
 const ProgressBarBackground = 'B8DBF2';
@@ -30,6 +32,12 @@ export default class Settings {
   }
   static FontColor() {
     return FontColor;
+  }
+  static GameoverFontColor() {
+    return GameoverFontColor;
+  }
+  static GameoverFontSize() {
+    return GameoverFontSize;
   }
   static FontStyle() {
     return FontStyle;

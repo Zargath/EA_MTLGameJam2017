@@ -13,6 +13,8 @@ export default class ProgressBarEntity {
   setPosition(position) {
     if (position < 1) {
       this.position = position;
+    } else {
+      this.position = 1;
     }
   }
 
