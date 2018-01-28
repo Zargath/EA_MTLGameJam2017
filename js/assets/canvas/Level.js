@@ -14,38 +14,38 @@ import Characters from '../characters';
 
 
 class Level extends Phaser.State {
-
+	
 	/**
 	 * Level.
 	 */
 	constructor() {
-
+		
 		super();
-
-
+		
+		
 		this.cursors = null;
-
+		
 	}
-
+	
 	init() {
-
+		
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
-		this.stage.backgroundColor = '#ffffff';
-
+		
 	}
-
-	preload() {
-
+	
+	preload () {
+		
 		this.preloadImages();
-
+		
 	}
-
+	
 	create() {
 		this.customCreate();
+		
 	}
-
+	
 	/* state-methods-begin */
 	render() {
 		// this.game.debug.body(this.player);
@@ -84,7 +84,7 @@ class Level extends Phaser.State {
 		}
 	}
 	/* state-methods-end */
-
+	
 }
 /* --- end generated code --- */
 export default Level
