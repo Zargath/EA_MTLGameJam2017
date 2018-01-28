@@ -62,6 +62,15 @@ class Level extends Phaser.State {
 		this.game.physics.arcade.collide(this.player, this.transporter);
 		this.Hud.update();
 
+		const offsetR = 100;
+		const offsetL = 60
+		if (this.player.x >= this.transporter.x - offsetL && this.player.x <= this.transporter.x + offsetR &&
+			this.player.y >= this.transporter.y - offsetL && this.player.y <= this.transporter.y + offsetR) {
+					this.Hud.transporterPowerModule.show();
+			} else {
+				this.Hud.transporterPowerModule.hide();
+			}
+
 		if(this.xKey.isDown) {
 			this.gameover();
 		}
@@ -77,7 +86,7 @@ class Level extends Phaser.State {
 					break;
 				}
 			}
-			
+
 			if(gemCollide !== undefined && !this.Hud.isBagFull()) {
 				this.Hud.addToBag(gemCollide);
 				this.gems.splice(i, 1);
@@ -101,9 +110,9 @@ class Level extends Phaser.State {
 	}
 
 	customCreate() {
-		const backgroundMusic = game.add.audio('bgmusic');
-		backgroundMusic.loop = true;
-		backgroundMusic.play();
+		this.backgroundMusic = game.add.audio('bgmusic');
+		this.backgroundMusic.loop = true;
+		this.backgroundMusic.play();
 
 		this.isRemovingGem = false;
 
@@ -150,6 +159,7 @@ class Level extends Phaser.State {
 	}
 
 	gameover() {
+		this.backgroundMusic.stop();
 		this.game.state.start('gameover');
 	}
 	/* state-methods-end */

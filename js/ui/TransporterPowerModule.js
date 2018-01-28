@@ -8,6 +8,8 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.xSlots = 2;
     this.ySlots = 4;
 
+    this.isHidden = true;
+
     const transporterSlotsWidth = this.xSlots * 42;
     const arrowWidth = 50;
     this.width = bag.width + arrowWidth + transporterSlotsWidth;
@@ -70,6 +72,28 @@ export default class TransporterPowerModule extends BaseDrawableObject {
         this.transporterSlots.drawRect((i * 40) + 4, (k * 40) + 4, 34, 34);
       }
     }
+  }
+
+  show() {
+    this.isHidden = false;
+    this.container.alpha = 1;
+    this.textHeader.alpha = 1;
+    this.bagText.alpha = 1;
+    this.powerText.alpha = 1;
+    this.bagSlots.alpha = 1;
+    this.arrow.alpha = 1;
+    this.transporterSlots.alpha = 1;
+  }
+
+  hide() {
+    this.isHidden = true;
+    this.container.alpha = 0;
+    this.textHeader.alpha = 0;
+    this.bagText.alpha = 0;
+    this.powerText.alpha = 0;
+    this.bagSlots.alpha = 0;
+    this.arrow.alpha = 0;
+    this.transporterSlots.alpha = 0;
   }
 
   fixedToCamera(fixedToCamera) {
