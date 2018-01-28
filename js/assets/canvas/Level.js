@@ -70,13 +70,14 @@ class Level extends Phaser.State {
 			this.isRemovingGem = true;
 			let gemCollide = undefined;
 			let i = 0;
-			for(; i < this.gems.length; i += 1) {
-				 if(this.player.x >= this.gems[i].x - 20 && this.player.x <= this.gems[i].x + 20 &&
+			for (; i < this.gems.length; i += 1) {
+				if (this.player.x >= this.gems[i].x - 20 && this.player.x <= this.gems[i].x + 20 &&
 					this.player.y >= this.gems[i].y - 20 && this.player.y <= this.gems[i].y + 20) {
-					 gemCollide = this.gems[i];
-					 break;
-				 }
+					gemCollide = this.gems[i];
+					break;
+				}
 			}
+			
 			if(gemCollide !== undefined && !this.Hud.isBagFull()) {
 				this.Hud.addToBag(gemCollide);
 				this.gems.splice(i, 1);

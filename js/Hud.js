@@ -3,6 +3,7 @@ import MessageContainer from './ui/MessageContainer';
 import LonelinessBar from './ui/LonelinessBar';
 import Clock from './ui/Clock';
 import Bag from './ui/bag';
+import TransporterPowerModule from './ui/TransporterPowerModule';
 import Settings from './Settings';
 import { HelpText } from './Text';
 
@@ -15,10 +16,12 @@ export default class Hud {
     this.pb = new LonelinessBar(this.game, this.graphics, 10, 10, 300, 12, this);
     this.mc = new MessageContainer(this.game, this.graphics, 200, 380, 400, 200, '', true, this);
     this.bag = new Bag(this.game, this.graphics, 20, 460, 2, 3);
+    this.transporterPowerModule = new TransporterPowerModule(this.game, this.graphics, this.bag);
     this.clock.fixedToCamera(true);
     this.mc.fixedToCamera(true);
     this.pb.fixedToCamera(true);
     this.bag.fixedToCamera(true);
+    this.transporterPowerModule.fixedToCamera(true);
 
     this.isHelpDisplayed = false;
     this.helpGraphics = this.game.add.graphics(100, 50);
