@@ -100,9 +100,9 @@ class Level extends Phaser.State {
 	}
 
 	customCreate() {
-		const backgroundMusic = game.add.audio('bgmusic');
-		backgroundMusic.loop = true;
-		backgroundMusic.play();
+		this.backgroundMusic = game.add.audio('bgmusic');
+		this.backgroundMusic.loop = true;
+		this.backgroundMusic.play();
 
 		this.isRemovingGem = false;
 
@@ -149,6 +149,7 @@ class Level extends Phaser.State {
 	}
 
 	gameover() {
+		this.backgroundMusic.stop();
 		this.game.state.start('gameover');
 	}
 	/* state-methods-end */
