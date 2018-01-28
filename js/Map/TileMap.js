@@ -1,4 +1,4 @@
-import { random, last, every } from 'lodash';
+import { random, last } from 'lodash';
 
 import Room from './Room';
 import TileInfo from './TileInfo';
@@ -11,11 +11,10 @@ export default class TileMap {
     this.maxRoomCount = maxRoomCount;
     this.minRoomSize = 9;
     this.maxRoomSize = 15;
-    this.minGemPerColor = 2;
-    this.minGemCount = 20;
+    this.minGemCount = 16;
 
-    this.width = width + this.maxRoomSize;
-    this.height = height + this.maxRoomSize;
+    this.width = width;
+    this.height = height;
     this.rooms = [];
     this.gems = [];
     this.gemCount = new Map();
@@ -49,18 +48,20 @@ export default class TileMap {
 
   placeRooms() {
     let tries = 0;
-    while (this.rooms.length < this.maxRoomCount) {
-      const roomWidth = this.minRoomSize + random((this.maxRoomSize - this.minRoomSize) + 1);
-      const roomHeight = this.minRoomSize + random((this.maxRoomSize - this.minRoomSize) + 1);
+    while (this.rooms.length < this.maxRoomCount && tries < 20) {
+      const roomWidth = random(this.minRoomSize, this.maxRoomSize);
+      const roomHeight = random(this.minRoomSize, this.maxRoomSize);
 
-      const xLoc = random(this.width - this.maxRoomSize - roomWidth - 1) + 1;
-      const yLoc = random(this.height - this.maxRoomSize - roomHeight - 1) + 1;
+      const xLoc = random(1, this.width - roomWidth - 1);
+      const yLoc = random(1, this.height - roomHeight - 1);
 
       const newRoom = new Room(xLoc, yLoc, roomHeight, roomWidth);
 
       let failed = false;
       this.rooms.forEach((r) => {
-        if (newRoom.intersects(r)) {
+        if (newRoom.intersects(r)
+          && newRoom.x + newRoom.width > this.width
+          && newRoom.y + newRoom.height > this.height) {
           failed = true;
         }
       });
@@ -72,39 +73,35 @@ export default class TileMap {
       } else {
         tries++;
       }
-
-      // Hack to avoid infinite loop ;)
-      if (tries >= 20) {
-        break;
-      }
     }
   }
 
   placeGems() {
+    let tries2 = 0;
     do {
       const gemTypeToPlace = this.getNextGemType();
       const roomIndex = random(0, this.rooms.length - 1);
       const room = this.rooms[roomIndex];
 
+      let tries = 0;
       let locInUse = false;
       do {
         const loc = room.getRandomLocInRoom();
         locInUse = this.isLocUsed(loc);
 
         if (!locInUse) {
-          this.gems.push(new GemInfo({ gemType: gemTypeToPlace, x: loc.x, y: loc.y }));
+          const newGem = new GemInfo({ gemType: gemTypeToPlace, x: loc.x, y: loc.y });
+          this.gems.push(newGem);
           const count = this.gemCount.get(gemTypeToPlace) + 1;
           this.gemCount.set(gemTypeToPlace, count);
+          locInUse = false;
+        } else {
+          tries++;
         }
-      } while (locInUse);
-    } while (this.getTotalGemCount() < this.minGemCount);
-  }
+      } while (locInUse && tries < 20);
 
-  getTotalGemCount() {
-    let totalGemCount = 0;
-    this.gemCount.forEach((value) => { totalGemCount += value; });
-
-    return totalGemCount;
+      tries2++;
+    } while (this.gems.length < this.minGemCount && tries2 < this.minGemCount + 20);
   }
 
   isLocUsed(loc) {
@@ -112,7 +109,12 @@ export default class TileMap {
       return true;
     }
 
-    return !every(this.gems, (gem => gem.location.x !== loc.x && gem.location.y !== loc.y));
+    let gemExists = false;
+    this.gems.forEach((gem) => {
+      gemExists = loc.x === gem.location.x && loc.y === gem.location.y;
+    });
+
+    return gemExists;
   }
 
   getNextGemType() {
@@ -132,11 +134,10 @@ export default class TileMap {
     const roomIndex = random(0, this.rooms.length - 1);
     const room = this.rooms[roomIndex];
 
-    // this.playerStartLocation = this.rooms[roomIndex].centerCoordinate;
-
     let locInUse = false;
     do {
       const loc = room.getRandomLocInRoom();
+
       locInUse = this.isLocUsed(loc);
 
       if (!locInUse) {
@@ -173,8 +174,8 @@ export default class TileMap {
     this.addToMap(
       room.topCoordinate.x,
       room.topCoordinate.y,
-      room.height,
       room.width,
+      room.height,
       new TileInfo({ tileType: TileTypes.FLOOR })
     );
   }

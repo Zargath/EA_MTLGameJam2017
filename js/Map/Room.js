@@ -24,8 +24,8 @@ export default class Room {
   }
 
   getRandomLocInRoom() {
-    const x = random(this.topCoordinate.x + 1, this.bottomCoordinate.x - 1);
-    const y = random(this.topCoordinate.y + 1, this.bottomCoordinate.y - 1);
+    const x = random(this.topCoordinate.x, this.bottomCoordinate.x - 1);
+    const y = random(this.topCoordinate.y, this.bottomCoordinate.y - 1);
 
     return new Coordinate(x, y);
   }

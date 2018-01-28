@@ -50,6 +50,7 @@ class Level extends Phaser.State {
 	/* state-methods-begin */
 	render() {
 		// this.game.debug.body(this.player);
+		// this.game.debug.spriteInfo(this.player, 32, 32);
 	}
 
 	update() {
@@ -65,7 +66,8 @@ class Level extends Phaser.State {
 	}
 
 	customCreate() {
-		const mapData = new TileMap(64, 64, 10);
+		const mapData = new TileMap(128, 128, 20);
+		// console.log(mapData.getCSV());
 		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
