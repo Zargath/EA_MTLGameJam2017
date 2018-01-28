@@ -131,7 +131,7 @@ class Level extends Phaser.State {
 		this.game.add.existing(this.player);
 
 		// Add Transporter
-		const transporterLoc = mapData.transporterLocation.getPixelLocation();
+		const transporterLoc = this.mapData.transporterLocation.getPixelLocation();
 		this.transporter = new Transporter({ game: game, x: transporterLoc.x, y: transporterLoc.y });
 		this.game.add.existing(this.transporter);
 
