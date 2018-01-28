@@ -9,7 +9,7 @@ import { TileTypes, GemTypes } from '../Enum';
 export default class TileMap {
   constructor(width, height, maxRoomCount) {
     this.maxRoomCount = maxRoomCount;
-    this.minRoomSize = 9;
+    this.minRoomSize = 8;
     this.maxRoomSize = 15;
     this.minGemCount = 16;
 

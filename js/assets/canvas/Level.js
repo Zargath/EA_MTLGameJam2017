@@ -73,8 +73,8 @@ class Level extends Phaser.State {
 					 break;
 				 }
 			}
-			if(gemCollide !== undefined) {
-				gemCollide.destroy();
+			if(gemCollide !== undefined && !this.Hud.isBagFull()) {
+				this.Hud.addToBag(gemCollide);
 				this.gems.splice(i, 1);
 				this.onPickupSound.play();
 			}
@@ -105,7 +105,7 @@ class Level extends Phaser.State {
 		this.onPickupSound = game.add.audio('pickUpItem');
 		this.onPickupSound.allowMultiple = true;
 
-		this.mapData = new TileMap(128, 128, 20);
+		this.mapData = new TileMap(128, 128, 4);
 		// console.log(mapData.getCSV());
 		this.cache.addTilemap('dynamicMap', null, this.mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);

@@ -47,6 +47,14 @@ export default class Hud {
     this.escapeKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   }
 
+  isBagFull() {
+    return this.bag.isBagFull();
+  }
+
+  addToBag(object) {
+    this.bag.addGemToBag(object);
+  }
+
   displayHelp() {
     if (!this.isHelpDisplayed) {
       this.helpGraphics.alpha = 1;
