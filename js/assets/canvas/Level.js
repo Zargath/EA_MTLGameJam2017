@@ -39,6 +39,7 @@ class Level extends Phaser.State {
 	preload() {
 
 		this.preloadImages();
+		this.preloadSounds();
 
 	}
 
@@ -56,6 +57,25 @@ class Level extends Phaser.State {
 	update() {
 		this.game.physics.arcade.collide(this.player, this.layer);
 		this.Hud.update();
+
+		if(this.spaceKey.isDown && !this.isRemovingGem) {
+			this.isRemovingGem = true;
+			let gemCollide = undefined;
+			let i = 0;
+			for(; i < this.gems.length; i += 1) {
+				 if(this.player.x >= this.gems[i].x - 20 && this.player.x <= this.gems[i].x + 20 &&
+					this.player.y >= this.gems[i].y - 20 && this.player.y <= this.gems[i].y + 20) {
+					 gemCollide = this.gems[i];
+					 break;
+				 }
+			}
+			if(gemCollide !== undefined) {
+				gemCollide.destroy();
+				this.gems.splice(i, 1);
+				this.onPickupSound.play();
+			}
+			this.isRemovingGem = false;
+		}
 	}
 
 	preloadImages() {
@@ -65,25 +85,42 @@ class Level extends Phaser.State {
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
+	preloadSounds() {
+		this.game.load.audio('pickUpItem', ['js/assets/162476__kastenfrosch__gotitem.mp3']);
+		this.game.load.audio('bgmusic', ['js/assets/shadows.mp3']);
+	}
+
 	customCreate() {
-		const mapData = new TileMap(128, 128, 20);
+		const backgroundMusic = game.add.audio('bgmusic');
+		backgroundMusic.loop = true;
+		//backgroundMusic.play();
+
+		this.isRemovingGem = false;
+
+		this.onPickupSound = game.add.audio('pickUpItem');
+		this.onPickupSound.allowMultiple = true;
+
+		this.mapData = new TileMap(128, 128, 20);
 		// console.log(mapData.getCSV());
-		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
+		this.cache.addTilemap('dynamicMap', null, this.mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
 		this.layer = map.createLayer(0);
 		this.layer.resizeWorld();
 		map.setCollisionBetween(1, 1);
 
+		this.gems = [];
+
 		// Add Gems
-		mapData.gems.forEach((gem) => {
+		this.mapData.gems.forEach((gem) => {
 			const gemLoc = gem.location.getPixelLocation();
 			const gemSprite = new Gem({ game: this.game, x: gemLoc.x, y: gemLoc.y, gemType: gem.gemType });
+			this.gems.push(gemSprite);
 			this.game.add.existing(gemSprite);
 		});
 
 		// Add player
-		const playerLoc = mapData.playerStartLocation.getPixelLocation();
+		const playerLoc = this.mapData.playerStartLocation.getPixelLocation();
 		this.player = new Player({ game: this.game, x: playerLoc.x, y: playerLoc.y });
 		this.game.camera.follow(this.player);
 		this.game.add.existing(this.player);
@@ -92,6 +129,8 @@ class Level extends Phaser.State {
 		for (let i = 0; i < IntroductionText.length; i += 1) {
 			this.Hud.addMessageToQueue(IntroductionText[i]);
 		}
+
+		this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	}
 	/* state-methods-end */
 
