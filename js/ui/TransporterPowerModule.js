@@ -3,7 +3,7 @@ import Settings from '../Settings';
 import { GemTypes } from '../Enum';
 
 export default class TransporterPowerModule extends BaseDrawableObject {
-  constructor(game, graphics, bag) {
+  constructor(game, graphics) {
     super(game, graphics);
 
     this.xSlots = 2;
@@ -21,37 +21,16 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.gem8 = undefined;
 
     const transporterSlotsWidth = this.xSlots * 42;
-    const arrowWidth = 50;
-    this.width = bag.width + arrowWidth + transporterSlotsWidth;
+    this.width = transporterSlotsWidth;
 
     const headerHeight = 20;
     const transporterHeight = (this.ySlots * 42) + headerHeight;
-    this.height = Math.max(bag.height, transporterHeight);
+    this.height = transporterHeight;
 
-    const containerX = (this.game.camera.width / 2) - (this.width / 2);
-    const containerY = (this.game.camera.height / 2) - (this.height / 2);
+    const containerX = 20;
+    const containerY = 230;
 
-    // Draw Arrow
-    this.arrow = this.game.add.graphics(
-      containerX + bag.width + 2,
-      containerY + (this.height / 2) + (5 / 2)
-    );
-    this.arrow.alpha = 0.8;
-    this.arrow.beginFill(0x000000);
-    this.arrow.lineStyle(2, 0XFFFFFF);
-    this.arrow.drawPolygon([
-      { x: 0, y: 0 },
-      { x: 30, y: 0 },
-      { x: 30, y: -10 },
-      { x: 45, y: 5 },
-      { x: 30, y: 20 },
-      { x: 30, y: 10 },
-      { x: 0, y: 10 },
-      { x: 0, y: 0 }
-    ]);
-    this.arrow.endFill();
-
-    const transporterX = bag.width + containerX + arrowWidth;
+    const transporterX = containerX;
 
     // Draw Container
     this.container = this.game.add.graphics(transporterX, containerY);
@@ -71,9 +50,11 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.powerText = this.game.add.text(transporterX + 4, containerY, 'Transporter', style);
 
     // Draw Transorter slots
+    this.slotsX = transporterX + 4;
+    this.slotsY = containerY + headerHeight + 4;
     this.transporterSlots = this.game.add.graphics(
-      transporterX + 4,
-      containerY + headerHeight + 4
+      this.slotsX,
+      this.slotsY
     );
     this.transporterSlots.alpha = 1;
     this.transporterSlots.lineStyle(1, 0XFFFFFF, 1);
@@ -86,9 +67,9 @@ export default class TransporterPowerModule extends BaseDrawableObject {
 
   isSetCompleted() {
     return this.gem1 !== undefined && this.gem2 !== undefined
-    && this.gem3 !== undefined && this.gem4 !== undefined
-    && this.gem5 !== undefined && this.gem6 !== undefined
-    && this.gem7 !== undefined && this.gem8 !== undefined;
+      && this.gem3 !== undefined && this.gem4 !== undefined
+      && this.gem5 !== undefined && this.gem6 !== undefined
+      && this.gem7 !== undefined && this.gem8 !== undefined;
   }
 
   addGem(gem) {
@@ -139,8 +120,10 @@ export default class TransporterPowerModule extends BaseDrawableObject {
       default:
         return;
     }
-    newGem.x = (this.x + 4) + (40 * Math.round(currentSize % 2));
-    newGem.y = (this.y + 4) + (40 * yMultiplier);
+
+    newGem.inputEnabled = false;
+    newGem.x = this.slotsX + 4 + (40 * Math.round(currentSize % 2));
+    newGem.y = this.slotsY + 4 + (40 * yMultiplier);
     newGem.alpha = 1;
     newGem.fixedToCamera = true;
   }
@@ -156,8 +139,16 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.container.alpha = 0.5;
     this.textHeader.alpha = 0.8;
     this.powerText.alpha = 1;
-    this.arrow.alpha = 0.8;
     this.transporterSlots.alpha = 1;
+
+    if (this.gem1) this.gem1.alpha = 1;
+    if (this.gem2) this.gem2.alpha = 1;
+    if (this.gem3) this.gem3.alpha = 1;
+    if (this.gem4) this.gem4.alpha = 1;
+    if (this.gem5) this.gem5.alpha = 1;
+    if (this.gem6) this.gem6.alpha = 1;
+    if (this.gem7) this.gem7.alpha = 1;
+    if (this.gem8) this.gem8.alpha = 1;
   }
 
   hide() {
@@ -165,15 +156,22 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.container.alpha = 0;
     this.textHeader.alpha = 0;
     this.powerText.alpha = 0;
-    this.arrow.alpha = 0;
     this.transporterSlots.alpha = 0;
+
+    if (this.gem1) this.gem1.alpha = 0;
+    if (this.gem2) this.gem2.alpha = 0;
+    if (this.gem3) this.gem3.alpha = 0;
+    if (this.gem4) this.gem4.alpha = 0;
+    if (this.gem5) this.gem5.alpha = 0;
+    if (this.gem6) this.gem6.alpha = 0;
+    if (this.gem7) this.gem7.alpha = 0;
+    if (this.gem8) this.gem8.alpha = 0;
   }
 
   fixedToCamera(fixedToCamera) {
     this.container.fixedToCamera = fixedToCamera;
     this.textHeader.fixedToCamera = fixedToCamera;
     this.powerText.fixedToCamera = fixedToCamera;
-    this.arrow.fixedToCamera = fixedToCamera;
     this.transporterSlots.fixedToCamera = fixedToCamera;
   }
 }

@@ -15,6 +15,8 @@ export default class Bag extends BaseDrawableObject {
     this.redrawBag();
 
     this.bag = [];
+
+    this.transporter = null;
   }
 
   getBagCurrentCapacity() {
@@ -29,7 +31,6 @@ export default class Bag extends BaseDrawableObject {
     const bagCurrentSize = this.getBagCurrentCapacity();
     const newGem = gem;
     if (!this.isBagFull()) {
-      this.bag.push(newGem);
       let yMultiplier = 0;
       yMultiplier = Math.floor(bagCurrentSize / 2);
 
@@ -37,6 +38,9 @@ export default class Bag extends BaseDrawableObject {
       newGem.y = (this.y + 4) + (40 * yMultiplier);
       newGem.alpha = 1;
       newGem.fixedToCamera = true;
+      newGem.inputEnabled = true;
+      newGem.events.onInputDown.add(this.transporter.addGem, this.transporter);
+      this.bag.push(newGem);
     }
   }
 
