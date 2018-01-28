@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-
 import Level from './assets/canvas/Level';
 
 export default class Game extends Phaser.Game {

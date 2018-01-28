@@ -2,11 +2,11 @@ import ProgressBarEntity from '../Entities/ProgressBarEntity';
 import BaseDrawableObject from './BaseDrawableObject';
 import Settings from '../Settings';
 
-export default class ProgressBar extends BaseDrawableObject {
+export default class BaseProgressBar extends BaseDrawableObject {
   constructor(game, graphics, x, y, width, height) {
     super(game, graphics);
     this.width = 10;
-    this.progressBarEntity = new ProgressBarEntity(0.2, true);
+    this.progressBarEntity = new ProgressBarEntity(0, true);
 
     this.x = x;
     this.y = y;
@@ -14,35 +14,33 @@ export default class ProgressBar extends BaseDrawableObject {
     this.height = height;
 
     this.lastPosition = 0;
-
-    const style = { font: `${Settings.HUDFontSize()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
-    this.text = this.game.add.text(this.x, this.y, 'loneliness', style);
-
-    this.draw();
   }
 
   update() {
+    this.preUpdate();
     if (this.lastPosition !== this.progressBarEntity.getPosition()) {
       this.lastPosition = this.progressBarEntity.getPosition();
       this.draw();
     }
   }
 
+  // Defines a method that must be overridden
+  /*eslint-disable */
+  preUpdate() {
+    throw new Error('Need to redefine preupdate');
+  }
+  /* eslint-enable */
+
   draw() {
     const offset = 4;
-    const offsetY = (this.text.height - this.height) / 5;
-    const offsetX = offset + this.text.width;
     this.graphics.beginFill(`0X${Settings.ProgressBarForeground()}`, 1);
-    this.graphics.drawRoundedRect(
-      this.x + offsetX, this.y + offsetY,
-      this.maxWidth, this.height, 2
-    );
+    this.graphics.drawRoundedRect(this.x, this.y, this.maxWidth, this.height, 2);
     if (this.progressBarEntity.getPosition() > 0) {
       const width = (this.maxWidth * this.progressBarEntity.getPosition()) - offset;
       this.graphics.beginFill(`0X${Settings.ProgressBarBackground()}`, 1);
       this.graphics.drawRoundedRect(
-        this.x + 2 + offsetX,
-        this.y + 2 + offsetY, width, this.height - offset, 2
+        this.x + 2,
+        this.y + 2, width, this.height - offset, 2
       );
     }
     this.lastPosition = this.progressBarEntity.getPosition();

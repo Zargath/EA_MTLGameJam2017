@@ -1,5 +1,7 @@
+import Phaser from 'phaser';
 import Settings from '../Settings';
 import BaseDrawableObject from './BaseDrawableObject';
+import Queue from '../DataStorage/Queue';
 
 // TODO After game jam refactor this class to seperate the logic of the autmaticScroll
 // from the logic of drawing on screen. Add the abilty to have a character's portrait
@@ -11,19 +13,24 @@ export default class MessageContainer extends BaseDrawableObject {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.words = MessageContainer.splitWords(message);
-    this.canHandleInput = false;
+    this.words = '';
 
+    this.queue = new Queue();
     this.lines = [];
     this.currentWord = '';
     this.timer = undefined;
+
+    this.queueWasEmpty = true;
+    this.isDoneDisplaying = true;
 
     this.automaticScroll = autmaticScroll;
     this.letterIndex = 0;
     this.wordIndex = 0;
 
+    this.graphics = this.game.add.graphics(0, 0);
+    this.graphics.alpha = 0.5;
     this.graphics.lineStyle(2, 0x0000FF, 1);
-    this.graphics.beginFill(0xFFFFFF);
+    this.graphics.beginFill(0x000000);
     this.graphics.drawRect(this.x, this.y, this.width, this.height);
 
     const style = { font: `${Settings.FontSize()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
@@ -32,18 +39,51 @@ export default class MessageContainer extends BaseDrawableObject {
 
     this.text3.alpha = 0;
 
-    this.timer = game.time.create(false);
+    this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+  }
+
+  addMessageToQueue(text) {
+    this.queue.enqueue(text);
+    if (this.queueWasEmpty) {
+      this.displayMessage(this.queue.dequeue());
+    }
+    this.queueWasEmpty = false;
+  }
+
+  displayMessage(text) {
+    if (this.timer !== undefined) {
+      this.timer.remove();
+    }
+    this.words = MessageContainer.splitWords(text);
+    this.lines = [];
+    this.currentWord = '';
+    this.timer = undefined;
+    this.isDoneDisplaying = false;
+
+    this.letterIndex = 0;
+    this.wordIndex = 0;
+
+    this.text.alpha = 1;
+
+    this.graphics.alpha = 0.5;
+
+    this.text.text = '';
+    this.text3.text = '';
+
+    this.timer = this.game.time.create(true);
     this.messageTimedEvent = this.timer.loop(20, this.nextLetter, this);
     this.timer.start();
   }
 
   update() {
-    if (this.canHandleInput) {
-      this.canHandleInput = false;
-      this.text.text = '';
-      this.text3.text = '';
-      this.lineIndex = 1;
-      this.timer.resume();
+    if (this.enterKey.isDown && this.isDoneDisplaying) {
+      if (!this.queue.isEmpty()) {
+        this.displayMessage(this.queue.dequeue());
+      } else {
+        this.graphics.alpha = 0;
+        this.text.alpha = 0;
+        this.queueWasEmpty = true;
+      }
     }
   }
 
@@ -93,6 +133,7 @@ export default class MessageContainer extends BaseDrawableObject {
       }
     } else {
       this.timer.stop();
+      this.isDoneDisplaying = true;
     }
   }
 
@@ -132,6 +173,7 @@ export default class MessageContainer extends BaseDrawableObject {
       }
     } else {
       this.timer.stop();
+      this.isDoneDisplaying = true;
     }
   }
 

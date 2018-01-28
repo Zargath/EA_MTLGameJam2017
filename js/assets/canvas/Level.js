@@ -2,6 +2,7 @@
 import Hud from '../../Hud';
 import TileMap from '../../Map/TileMap';
 import Player from '../sprites/player';
+import { IntroductionText }  from '../../Text'
 
 import tiles from '../tiles_x.png';
 import gems from '../gems.png';
@@ -58,6 +59,7 @@ class Level extends Phaser.State {
 	preloadImages() {
 		this.game.load.image('tiles', tiles);
 		this.game.load.image('gems', gems);
+		this.game.load.spritesheet('help', 'js/assets/help.png', 40, 20)
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
@@ -70,13 +72,16 @@ class Level extends Phaser.State {
 		this.layer.resizeWorld();
 		map.setCollisionBetween(1, 1);
 
-		this.Hud = new Hud(this.game);
-
 		// Add player
 		const playerLoc = mapData.playerStartLocation.getPixelLocation();
 		this.player = new Player({ game: this.game, x: playerLoc.x, y: playerLoc.y });
 		this.game.camera.follow(this.player);
 		this.game.add.existing(this.player);
+
+		this.Hud = new Hud(this.game);
+		for(let i = 0; i < IntroductionText.length; i += 1) {
+			this.Hud.addMessageToQueue(IntroductionText[i]);
+		}
 	}
 	/* state-methods-end */
 

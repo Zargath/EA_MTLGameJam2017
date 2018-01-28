@@ -1,5 +1,5 @@
 import GameObject from './GameObjectEntity';
-import Enum from '../Enum';
+import { Colors } from '../Enum';
 import { guid } from '../Utils';
 
 export default class TransportPieceEntity extends GameObject {
@@ -10,7 +10,7 @@ export default class TransportPieceEntity extends GameObject {
     this.pickupText = pickupText;
     this.color = undefined;
 
-    if (Enum.Colors.contains(color)) {
+    if (Colors.contains(color)) {
       throw new Error(`${color} is not a valid color.`);
     } else {
       this.color = color;
