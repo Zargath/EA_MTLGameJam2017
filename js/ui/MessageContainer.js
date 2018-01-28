@@ -7,7 +7,7 @@ import Queue from '../DataStorage/Queue';
 // from the logic of drawing on screen. Add the abilty to have a character's portrait
 // In the text as well by extending this class
 export default class MessageContainer extends BaseDrawableObject {
-  constructor(game, graphics, x, y, width, height, message, autmaticScroll) {
+  constructor(game, graphics, x, y, width, height, message, automaticScroll) {
     super(game, graphics);
     this.x = x;
     this.y = y;
@@ -23,7 +23,8 @@ export default class MessageContainer extends BaseDrawableObject {
     this.queueWasEmpty = true;
     this.isDoneDisplaying = true;
 
-    this.automaticScroll = autmaticScroll;
+    this.automaticScroll = automaticScroll;
+    this.automaticScrollTick = 0;
     this.letterIndex = 0;
     this.wordIndex = 0;
 
@@ -45,6 +46,7 @@ export default class MessageContainer extends BaseDrawableObject {
   addMessageToQueue(text) {
     this.queue.enqueue(text);
     if (this.queueWasEmpty) {
+      this.automaticScrollTick = 0;
       this.displayMessage(this.queue.dequeue());
     }
     this.queueWasEmpty = false;
@@ -76,14 +78,24 @@ export default class MessageContainer extends BaseDrawableObject {
   }
 
   update() {
-    if (this.enterKey.isDown && this.isDoneDisplaying) {
-      if (!this.queue.isEmpty()) {
-        this.displayMessage(this.queue.dequeue());
-      } else {
-        this.graphics.alpha = 0;
-        this.text.alpha = 0;
-        this.queueWasEmpty = true;
+    if (this.enterKey.isDown && this.isDoneDisplaying && !this.automaticScroll) {
+      this.displayNextMessage();
+    } else if (this.automaticScroll && this.isDoneDisplaying) {
+      this.automaticScrollTick += 1;
+      if (this.automaticScrollTick > 100) {
+        this.automaticScrollTick -= 100;
+        this.displayNextMessage();
       }
+    }
+  }
+
+  displayNextMessage() {
+    if (!this.queue.isEmpty()) {
+      this.displayMessage(this.queue.dequeue());
+    } else {
+      this.graphics.alpha = 0;
+      this.text.alpha = 0;
+      this.queueWasEmpty = true;
     }
   }
 
