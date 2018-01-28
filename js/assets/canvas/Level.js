@@ -1,10 +1,12 @@
 // -- user code here --
 import Hud from '../../Hud';
-import Map from '../../Map/Map';
+import TileMap from '../../Map/TileMap';
 import Player from '../sprites/player';
-import { IntroductionText }  from '../../Text'
+import Gem from '../sprites/gem';
+import { IntroductionText } from '../../Text'
 
 import tiles from '../tiles_x.png';
+import gems from '../gems.png';
 import Characters from '../characters';
 
 /* --- start generated code --- */
@@ -31,7 +33,6 @@ class Level extends Phaser.State {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
-		this.stage.backgroundColor = '#ffffff';
 
 	}
 
@@ -43,6 +44,7 @@ class Level extends Phaser.State {
 
 	create() {
 		this.customCreate();
+
 	}
 
 	/* state-methods-begin */
@@ -57,18 +59,26 @@ class Level extends Phaser.State {
 
 	preloadImages() {
 		this.game.load.image('tiles', tiles);
+		this.game.load.spritesheet('gems', gems, 32, 32);
 		this.game.load.spritesheet('help', 'js/assets/help.png', 40, 20)
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
 	customCreate() {
-		const mapData = new Map(128, 128, 25);
+		const mapData = new TileMap(64, 64, 10);
 		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
 		this.layer = map.createLayer(0);
 		this.layer.resizeWorld();
 		map.setCollisionBetween(1, 1);
+
+		// Add Gems
+		mapData.gems.forEach((gem) => {
+			const gemLoc = gem.location.getPixelLocation();
+			const gemSprite = new Gem({ game: this.game, x: gemLoc.x, y: gemLoc.y, gemType: gem.gemType });
+			this.game.add.existing(gemSprite);
+		});
 
 		// Add player
 		const playerLoc = mapData.playerStartLocation.getPixelLocation();
@@ -77,7 +87,7 @@ class Level extends Phaser.State {
 		this.game.add.existing(this.player);
 
 		this.Hud = new Hud(this.game);
-		for(let i = 0; i < IntroductionText.length; i += 1) {
+		for (let i = 0; i < IntroductionText.length; i += 1) {
 			this.Hud.addMessageToQueue(IntroductionText[i]);
 		}
 	}

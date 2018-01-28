@@ -28,9 +28,9 @@
     "pageAlignHorizontally": true,
     "pageAlignVertically": true,
     "stageBackgroundColor": [
-      255,
-      255,
-      255
+      0,
+      0,
+      0
     ],
     "autoLoad": true,
     "preloadSpriteId": "",
