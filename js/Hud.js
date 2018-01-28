@@ -89,6 +89,7 @@ export default class Hud {
     this.mc.update();
     this.pb.update();
     this.clock.update();
+    this.transporterPowerModule.update();
   }
 
   addMessageToQueue(text) {

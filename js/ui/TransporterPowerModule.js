@@ -153,6 +153,12 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     newGem.fixedToCamera = true;
   }
 
+  update() {
+    if (this.isSetCompleted()) {
+      this.game.state.start('victory');
+    }
+  }
+
   show() {
     this.isHidden = false;
     this.container.alpha = 1;
