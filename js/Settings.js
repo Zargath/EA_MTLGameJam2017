@@ -7,6 +7,8 @@ const HUDFontSize = 12;
 const FontColor = '#ff00ff';
 const GameoverFontColor = '#C11B17';
 const GameoverFontSize = '60';
+const VictoryFontColor = '#00cc00';
+const VictoryFontSize = '60';
 const FontStyle = 'Arial';
 const ProgressBarForeground = '2B4666';
 const ProgressBarBackground = 'B8DBF2';
@@ -38,6 +40,12 @@ export default class Settings {
   }
   static GameoverFontSize() {
     return GameoverFontSize;
+  }
+  static VictoryFontColor() {
+    return VictoryFontColor;
+  }
+  static VictoryFontSize() {
+    return VictoryFontSize;
   }
   static FontStyle() {
     return FontStyle;

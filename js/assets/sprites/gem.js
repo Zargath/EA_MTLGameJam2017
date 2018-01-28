@@ -27,6 +27,7 @@ export default class Gem extends Phaser.Sprite {
   constructor({ game, x, y, gemType }) {
     super(game, x, y, 'gems', getSpriteIndex(gemType));
 
+    this.gemType = gemType;
     this.setupGem();
   }
 

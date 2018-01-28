@@ -1,5 +1,6 @@
 import BaseDrawableObject from './BaseDrawableObject';
 import Settings from '../Settings';
+import { GemTypes } from '../Enum';
 
 export default class TransporterPowerModule extends BaseDrawableObject {
   constructor(game, graphics, bag) {
@@ -9,6 +10,15 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.ySlots = 4;
 
     this.isHidden = true;
+
+    this.gem1 = undefined;
+    this.gem2 = undefined;
+    this.gem3 = undefined;
+    this.gem4 = undefined;
+    this.gem5 = undefined;
+    this.gem6 = undefined;
+    this.gem7 = undefined;
+    this.gem8 = undefined;
 
     const bagSlotsWidth = bag.xSlots * 42;
     const transporterSlotsWidth = this.xSlots * 42;
@@ -80,6 +90,67 @@ export default class TransporterPowerModule extends BaseDrawableObject {
         this.transporterSlots.drawRect((i * 40) + 4, (k * 40) + 4, 34, 34);
       }
     }
+  }
+
+  isSetCompleted() {
+    return this.gem1 !== undefined && this.gem2 !== undefined
+    && this.gem3 !== undefined && this.gem4 !== undefined
+    && this.gem5 !== undefined && this.gem6 !== undefined
+    && this.gem7 !== undefined && this.gem8 !== undefined;
+  }
+
+  addGem(gem) {
+    const newGem = gem;
+    let currentSize = 0;
+    let yMultiplier = 0;
+    switch (newGem.gemType) {
+      case GemTypes.SILVER:
+        this.gem1 = newGem;
+        currentSize = 1;
+        yMultiplier = 0;
+        break;
+      case GemTypes.ORANGE:
+        this.gem2 = newGem;
+        currentSize = 2;
+        yMultiplier = 0;
+        break;
+      case GemTypes.YELLOW:
+        this.gem3 = newGem;
+        currentSize = 3;
+        yMultiplier = 1;
+        break;
+      case GemTypes.PURPLE:
+        this.gem4 = newGem;
+        currentSize = 4;
+        yMultiplier = 1;
+        break;
+      case GemTypes.RED:
+        this.gem5 = newGem;
+        currentSize = 5;
+        yMultiplier = 2;
+        break;
+      case GemTypes.GREEN:
+        this.gem6 = newGem;
+        currentSize = 6;
+        yMultiplier = 2;
+        break;
+      case GemTypes.BLUE:
+        this.gem7 = newGem;
+        currentSize = 7;
+        yMultiplier = 3;
+        break;
+      case GemTypes.TURQUOISE:
+        this.gem8 = newGem;
+        currentSize = 8;
+        yMultiplier = 3;
+        break;
+      default:
+        return;
+    }
+    newGem.x = (this.x + 4) + (40 * Math.round(currentSize % 2));
+    newGem.y = (this.y + 4) + (40 * yMultiplier);
+    newGem.alpha = 1;
+    newGem.fixedToCamera = true;
   }
 
   show() {

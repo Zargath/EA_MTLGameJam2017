@@ -71,9 +71,12 @@ class Level extends Phaser.State {
 				this.Hud.transporterPowerModule.hide();
 			}
 
-		if(this.xKey.isDown) {
-			this.gameover();
-		}
+			if(this.xKey.isDown) {
+				this.gameover();
+			}
+			if(this.vKey.isDown) {
+				this.victory();
+			}
 
 		if(this.spaceKey.isDown && !this.isRemovingGem) {
 			this.isRemovingGem = true;
@@ -156,7 +159,13 @@ class Level extends Phaser.State {
 
 		this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.xKey = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
+		this.vKey = this.game.input.keyboard.addKey(Phaser.Keyboard.V);
 	}
+
+	victory() {
+		this.backgroundMusic.stop();
+			this.game.state.start('victory');
+		}
 
 	gameover() {
 		this.backgroundMusic.stop();
