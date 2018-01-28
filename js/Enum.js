@@ -10,7 +10,19 @@ const TileTypes = {
   WALL: 'wall'
 };
 
+const GemTypes = {
+  SILVER: 'silver',
+  ORANGE: 'orange',
+  YELLOW: 'yellow',
+  PURPLE: 'purple',
+  RED: 'red',
+  GREEN: 'green',
+  BLUE: 'blue',
+  TURQUOISE: 'turquoise'
+};
+
 export {
   Colors,
-  TileTypes
+  TileTypes,
+  GemTypes
 };

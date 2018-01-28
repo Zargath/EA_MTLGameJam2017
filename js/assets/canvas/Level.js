@@ -1,9 +1,10 @@
 // -- user code here --
 import Hud from '../../Hud';
-import Map from '../../Map/Map';
+import TileMap from '../../Map/TileMap';
 import Player from '../sprites/player';
 
 import tiles from '../tiles_x.png';
+import gems from '../gems.png';
 import Characters from '../characters';
 
 /* --- start generated code --- */
@@ -56,11 +57,12 @@ class Level extends Phaser.State {
 
 	preloadImages() {
 		this.game.load.image('tiles', tiles);
+		this.game.load.image('gems', gems);
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
 
 	customCreate() {
-		const mapData = new Map(128, 128, 25);
+		const mapData = new TileMap(64, 64, 10);
 		this.cache.addTilemap('dynamicMap', null, mapData.getCSV(), Phaser.Tilemap.CSV);
 		const map = this.add.tilemap('dynamicMap', 32, 32);
 		map.addTilesetImage('tiles', 'tiles', 32, 32);
