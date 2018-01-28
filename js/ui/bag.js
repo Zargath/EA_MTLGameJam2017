@@ -1,3 +1,5 @@
+import { remove } from 'lodash';
+
 import BaseDrawableObject from './BaseDrawableObject';
 import Settings from '../Settings';
 
@@ -39,7 +41,12 @@ export default class Bag extends BaseDrawableObject {
       newGem.alpha = 1;
       newGem.fixedToCamera = true;
       newGem.inputEnabled = true;
-      newGem.events.onInputDown.add(this.transporter.addGem, this.transporter);
+      newGem.events.onInputDown.add((g) => {
+        if (!this.transporter.isHidden) {
+          this.transporter.addGem(g);
+          remove(this.bag, bagGem => bagGem === g);
+        }
+      });
       this.bag.push(newGem);
     }
   }

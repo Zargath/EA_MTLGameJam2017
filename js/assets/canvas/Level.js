@@ -66,19 +66,19 @@ class Level extends Phaser.State {
 		const offsetL = 60
 		if (this.player.x >= this.transporter.x - offsetL && this.player.x <= this.transporter.x + offsetR &&
 			this.player.y >= this.transporter.y - offsetL && this.player.y <= this.transporter.y + offsetR) {
-					this.Hud.transporterPowerModule.show();
-			} else {
-				this.Hud.transporterPowerModule.hide();
-			}
+			this.Hud.transporterPowerModule.show();
+		} else {
+			this.Hud.transporterPowerModule.hide();
+		}
 
-			if(this.xKey.isDown) {
-				this.gameover();
-			}
-			if(this.vKey.isDown) {
-				this.victory();
-			}
+		// if (this.xKey.isDown) {
+		// 	this.gameover();
+		// }
+		// if (this.vKey.isDown) {
+		// 	this.victory();
+		// }
 
-		if(this.spaceKey.isDown && !this.isRemovingGem) {
+		if (this.spaceKey.isDown && !this.isRemovingGem) {
 			this.isRemovingGem = true;
 			let gemCollide = undefined;
 			let i = 0;
@@ -90,7 +90,7 @@ class Level extends Phaser.State {
 				}
 			}
 
-			if(gemCollide !== undefined && !this.Hud.isBagFull()) {
+			if (gemCollide !== undefined && !this.Hud.isBagFull()) {
 				this.Hud.addToBag(gemCollide);
 				this.gems.splice(i, 1);
 				this.onPickupSound.play();
@@ -149,7 +149,7 @@ class Level extends Phaser.State {
 
 		// Add Transporter
 		const transporterLoc = this.mapData.transporterLocation.getPixelLocation();
-		this.transporter = new Transporter({ game: game, x: transporterLoc.x, y: transporterLoc.y });
+		this.transporter = new Transporter({ game: game, x: transporterLoc.x, y: transporterLoc.y - 9 });
 		this.game.add.existing(this.transporter);
 
 		this.Hud = new Hud(this.game);
@@ -164,8 +164,8 @@ class Level extends Phaser.State {
 
 	victory() {
 		this.backgroundMusic.stop();
-			this.game.state.start('victory');
-		}
+		this.game.state.start('victory');
+	}
 
 	gameover() {
 		this.backgroundMusic.stop();

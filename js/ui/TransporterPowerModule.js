@@ -47,7 +47,7 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     this.container.drawRect(0, 0, transporterSlotsWidth + 6, headerHeight);
 
     const style = { font: `${Settings.Header4Size()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
-    this.powerText = this.game.add.text(transporterX + 4, containerY, 'Transporter', style);
+    this.powerText = this.game.add.text(transporterX + 4, containerY, 'Transmitter', style);
 
     // Draw Transorter slots
     this.slotsX = transporterX + 4;
@@ -78,44 +78,76 @@ export default class TransporterPowerModule extends BaseDrawableObject {
     let yMultiplier = 0;
     switch (newGem.gemType) {
       case GemTypes.SILVER:
-        this.gem1 = newGem;
-        currentSize = 1;
-        yMultiplier = 0;
+        if (this.gem1 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem1 = newGem;
+          currentSize = 1;
+          yMultiplier = 0;
+        }
         break;
       case GemTypes.ORANGE:
-        this.gem2 = newGem;
-        currentSize = 2;
-        yMultiplier = 0;
+        if (this.gem2 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem2 = newGem;
+          currentSize = 2;
+          yMultiplier = 0;
+        }
         break;
       case GemTypes.YELLOW:
-        this.gem3 = newGem;
-        currentSize = 3;
-        yMultiplier = 1;
+        if (this.gem3 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem3 = newGem;
+          currentSize = 3;
+          yMultiplier = 1;
+        }
         break;
       case GemTypes.PURPLE:
-        this.gem4 = newGem;
-        currentSize = 4;
-        yMultiplier = 1;
+        if (this.gem4 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem4 = newGem;
+          currentSize = 4;
+          yMultiplier = 1;
+        }
         break;
       case GemTypes.RED:
-        this.gem5 = newGem;
-        currentSize = 5;
-        yMultiplier = 2;
+        if (this.gem5 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem5 = newGem;
+          currentSize = 5;
+          yMultiplier = 2;
+        }
         break;
       case GemTypes.GREEN:
-        this.gem6 = newGem;
-        currentSize = 6;
-        yMultiplier = 2;
+        if (this.gem6 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem6 = newGem;
+          currentSize = 6;
+          yMultiplier = 2;
+        }
         break;
       case GemTypes.BLUE:
-        this.gem7 = newGem;
-        currentSize = 7;
-        yMultiplier = 3;
+        if (this.gem7 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem7 = newGem;
+          currentSize = 7;
+          yMultiplier = 3;
+        }
         break;
       case GemTypes.TURQUOISE:
-        this.gem8 = newGem;
-        currentSize = 8;
-        yMultiplier = 3;
+        if (this.gem8 !== undefined) {
+          newGem.destroy();
+        } else {
+          this.gem8 = newGem;
+          currentSize = 8;
+          yMultiplier = 3;
+        }
         break;
       default:
         return;
