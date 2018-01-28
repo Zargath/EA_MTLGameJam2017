@@ -62,7 +62,11 @@ class Level extends Phaser.State {
 		this.game.physics.arcade.collide(this.player, this.transporter);
 		this.Hud.update();
 
-		if (this.spaceKey.isDown && !this.isRemovingGem) {
+		if(this.xKey.isDown) {
+			this.gameover();
+		}
+
+		if(this.spaceKey.isDown && !this.isRemovingGem) {
 			this.isRemovingGem = true;
 			let gemCollide = undefined;
 			let i = 0;
@@ -73,8 +77,9 @@ class Level extends Phaser.State {
 					break;
 				}
 			}
-			if (gemCollide !== undefined) {
-				gemCollide.destroy();
+			
+			if(gemCollide !== undefined && !this.Hud.isBagFull()) {
+				this.Hud.addToBag(gemCollide);
 				this.gems.splice(i, 1);
 				this.onPickupSound.play();
 			}
@@ -141,6 +146,11 @@ class Level extends Phaser.State {
 		}
 
 		this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		this.xKey = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
+	}
+
+	gameover() {
+		this.game.state.start('gameover');
 	}
 	/* state-methods-end */
 

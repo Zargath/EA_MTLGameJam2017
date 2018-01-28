@@ -7,6 +7,17 @@ export const IntroductionText = [
   'Siri: Really do I have to answer all your questions? Just look at your teleporter it’s in pieces. I’m assuming based on the wreckage that it somehow malfunctioned.',
   'Me: It doesn’t look busted up to me!',
   'Siri: That’s what happens when two developers and 0 designers work on a game. They didn\'t even take the time to render me!!',
+  '[Initiate loneliness meter]',
+  'Me: Uhmm.. Siri what was that!?',
+  'Siri: The developpers could not find a better way to start the loneliness meter...',
+  'Me: ... What is the loneliness meter?',
+  'Siri: Look at the top left hand side of the screen. It basically acts as a death timer so better start gathering those gems!! Don\'t forget to use the [spacebar] to pick them up!',
+  'Siri: Oh and don\'t forget to bring them back to the transmitter when you\'re done!',
+  'Me: Siri there\'s nothing on the top left hand side of my screen...',
+  'Siri: I wasn\'t talking to you.',
+  'Siri: Also your bag can only hold six crystals...',
+  'Me: But I don\'t even have a bag...!',
+  'Siri: Again wasn\'t talking to you.'
 ];
 
 export const HelpText = [

@@ -7,13 +7,15 @@ import Queue from '../DataStorage/Queue';
 // from the logic of drawing on screen. Add the abilty to have a character's portrait
 // In the text as well by extending this class
 export default class MessageContainer extends BaseDrawableObject {
-  constructor(game, graphics, x, y, width, height, message, automaticScroll) {
+  constructor(game, graphics, x, y, width, height, message, automaticScroll, hud) {
     super(game, graphics);
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.words = '';
+
+    this.hud = hud;
 
     this.queue = new Queue();
     this.lines = [];
@@ -53,6 +55,10 @@ export default class MessageContainer extends BaseDrawableObject {
   }
 
   displayMessage(text) {
+    if (text === '[Initiate loneliness meter]') {
+      this.hud.pb.startTickingLonelinessBar = true;
+    }
+
     if (this.timer !== undefined) {
       this.timer.remove();
     }

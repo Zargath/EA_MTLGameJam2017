@@ -14,20 +14,28 @@ export default class LonelinessBar extends BaseProgressBar {
     this.tick1 = 0;
     this.tick2 = 0;
 
+    this.startTickingLonelinessBar = false;
+
     this.lastTextShown = 0;
 
     this.draw();
   }
 
   preUpdate() {
-    const maxTick1Tick = 100;
-    this.tick1 += 1;
-    if (this.tick1 > maxTick1Tick) {
-      this.tick1 -= maxTick1Tick;
-      this.tick2 += 0.01;
+    if (this.startTickingLonelinessBar) {
+      const maxTick1Tick = 100;
+      this.tick1 += 1;
+      if (this.tick1 > maxTick1Tick) {
+        this.tick1 -= maxTick1Tick;
+        this.tick2 += 0.01;
+      }
+      this.progressBarEntity.setPosition(this.tick2);
+      this.showLonelinessText();
+
+      if (this.progressBarEntity.getPosition() >= 1) {
+        this.game.state.start('gameover');
+      }
     }
-    this.progressBarEntity.setPosition(this.tick2);
-    this.showLonelinessText();
   }
 
   showLonelinessText() {
@@ -41,13 +49,13 @@ export default class LonelinessBar extends BaseProgressBar {
     } else if (this.lastTextShown === 2 && this.progressBarEntity.getPosition() >= 0.90) {
       textToShow = TextLoneliness10;
       this.lastTextShown += 1;
-    } else if (this.lastTextShown === 3 && this.progressBarEntity.getPosition() >= 0.95) {
+    } else if (this.lastTextShown === 3 && this.progressBarEntity.getPosition() >= 0.94) {
       textToShow = TextLoneliness5;
       this.lastTextShown += 1;
-    } else if (this.lastTextShown === 4 && this.progressBarEntity.getPosition() >= 0.98) {
+    } else if (this.lastTextShown === 4 && this.progressBarEntity.getPosition() >= 0.97) {
       textToShow = TextLoneliness2;
       this.lastTextShown += 1;
-    } else if (this.lastTextShown === 5 && this.progressBarEntity.getPosition() >= 0.99) {
+    } else if (this.lastTextShown === 5 && this.progressBarEntity.getPosition() >= 0.98) {
       textToShow = TextLoneliness1;
       this.lastTextShown += 1;
     }

@@ -12,6 +12,35 @@ export default class Bag extends BaseDrawableObject {
     this.xSlots = xSlots;
     this.ySlots = ySlots;
 
+    this.redrawBag();
+
+    this.bag = [];
+  }
+
+  getBagCurrentCapacity() {
+    return this.bag.length;
+  }
+
+  isBagFull() {
+    return (this.xSlots * this.ySlots) <= this.getBagCurrentCapacity();
+  }
+
+  addGemToBag(gem) {
+    const bagCurrentSize = this.getBagCurrentCapacity();
+    const newGem = gem;
+    if (!this.isBagFull()) {
+      this.bag.push(newGem);
+      let yMultiplier = 0;
+      yMultiplier = Math.floor(bagCurrentSize / 2);
+
+      newGem.x = (this.x + 4) + (40 * Math.round(bagCurrentSize % 2));
+      newGem.y = (this.y + 4) + (40 * yMultiplier);
+      newGem.alpha = 1;
+      newGem.fixedToCamera = true;
+    }
+  }
+
+  redrawBag() {
     this.graphics = this.game.add.graphics(0, 0);
     this.graphics.alpha = 0.5;
     this.graphics.lineStyle(2, 0x0000FF, 1);
@@ -32,7 +61,6 @@ export default class Bag extends BaseDrawableObject {
         this.graphics3.drawRect(this.x + 4 + (i * 40), this.y + 4 + (k * 40), 34, 34);
       }
     }
-
     const style = { font: `${Settings.Header4Size()}px ${Settings.FontStyle()}`, fill: Settings.FontColor() };
     this.text = this.game.add.text(this.x + 25, this.y - 20, 'Bag', style);
   }

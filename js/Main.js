@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import Level from './assets/canvas/Level';
+import Gameover from './assets/canvas/gameover';
 
 export default class Game extends Phaser.Game {
   constructor() {
-    super(800, 600, Phaser.AUTO, '', null, false, true, {
+    super(800, 600, Phaser.AUTO, '', null, false, false, {
       arcade: true,
       matter: false,
       p2: false,
@@ -15,6 +16,7 @@ export default class Game extends Phaser.Game {
     // this.state.add("Menu", Menu);
     // this.state.add("Preload", Preload);
     this.state.add('Level', Level);
+    this.state.add('gameover', Gameover);
 
     this.state.start('Level');
   }
