@@ -2,10 +2,10 @@ export const IntroductionText = [
   'Me: ... Wait... Where am I?',
   'Siri: I’m sorry I didn’t get that...',
   'Me: ... Even when I’m stranded alone technology still finds a way to annoy me... Hey Siri where the hell are we!?',
-  'Siri: We’re currently stranded on an unknown world. Luckily for you the oxygen is breathable, as for me I have no such dependencies. ',
+  'Siri: We’re currently stranded on an unknown world. Luckily for you the oxygen is breathable, as for me I have no such dependencies.',
   'Me: Alright and how did we end up here...?',
-  'Siri: Really do I have to answer all your questions? Just look at your teleporter it’s in pieces. I’m assuming based on the wreckage that it somehow malfunctioned. ',
-  'Me: It doesn’t look busted up to me',
+  'Siri: Really do I have to answer all your questions? Just look at your teleporter it’s in pieces. I’m assuming based on the wreckage that it somehow malfunctioned.',
+  'Me: It doesn’t look busted up to me!',
   'Siri: That’s what happens when two developers and 0 designers work on a game. They didn\'t even take the time to render me!!',
 ];
 
@@ -26,14 +26,34 @@ export const HelpText = [
   '*Probably isn\'t even close, but still 48hrs!',
 ];
 
-export const TextItem1 = () => 'test1';
+export const TextLoneliness50 = [
+  'Me: Hey Siri... is it just me or is it lonely here?',
+  'Siri: It\'s just you I am unable to feel emotions.',
+  'Me: How sad...',
+  'Siri: I wouldn\'t know...'
+];
 
-export const TextItem2 = () => 'test2';
+export const TextLoneliness25 = [
+  'Me: How about we play a little game?',
+  'Also Me: Sure what game?',
+  'Siri: I detect a high probability of mental breakdown'
+];
 
-export const TextItem3 = () => 'test1';
+export const TextLoneliness10 = [
+  'Me: I think I\'ll end up dying alone on this planet...',
+  'Siri: ...',
+  'Me: ...'
+];
 
-export const TextItem4 = () => 'test2';
+export const TextLoneliness5 = [
+  'Me: Hey Siri what\'s the weather like?',
+  'Siri: Unable to connect to Earth please try again later'
+];
 
-export const TextItem5 = () => 'test1';
+export const TextLoneliness2 = [
+  'Me: This feels nice silence at the end of a long journey....'
+];
 
-export const TextItem6 = () => 'test2';
+export const TextLoneliness1 = [
+  'Me: Goodbye cruel world!'
+];

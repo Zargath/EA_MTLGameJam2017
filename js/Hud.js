@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import MessageContainer from './ui/MessageContainer';
-import ProgressBar from './ui/ProgressBar';
+import LonelinessBar from './ui/LonelinessBar';
 import Clock from './ui/Clock';
 import Settings from './Settings';
 import { HelpText } from './Text';
@@ -11,7 +11,7 @@ export default class Hud {
     this.graphics = this.game.add.graphics(0, 0);
     this.createTopAnchor();
     this.clock = new Clock(this.game, this.graphics, 600, 40 / 5);
-    this.pb = new ProgressBar(this.game, this.graphics, 10, 10, 300, 12);
+    this.pb = new LonelinessBar(this.game, this.graphics, 10, 10, 300, 12, this);
     this.mc = new MessageContainer(this.game, this.graphics, 200, 380, 400, 200, '', true);
     this.clock.fixedToCamera(true);
     this.mc.fixedToCamera(true);

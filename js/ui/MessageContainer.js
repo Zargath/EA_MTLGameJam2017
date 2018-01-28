@@ -20,7 +20,7 @@ export default class MessageContainer extends BaseDrawableObject {
     this.currentWord = '';
     this.timer = undefined;
 
-    this.isFirstAdd = true;
+    this.queueWasEmpty = true;
     this.isDoneDisplaying = true;
 
     this.automaticScroll = autmaticScroll;
@@ -44,10 +44,10 @@ export default class MessageContainer extends BaseDrawableObject {
 
   addMessageToQueue(text) {
     this.queue.enqueue(text);
-    if (this.isFirstAdd) {
+    if (this.queueWasEmpty) {
       this.displayMessage(this.queue.dequeue());
     }
-    this.isFirstAdd = false;
+    this.queueWasEmpty = false;
   }
 
   displayMessage(text) {
@@ -62,6 +62,8 @@ export default class MessageContainer extends BaseDrawableObject {
 
     this.letterIndex = 0;
     this.wordIndex = 0;
+
+    this.text.alpha = 1;
 
     this.graphics.alpha = 0.5;
 
@@ -80,6 +82,7 @@ export default class MessageContainer extends BaseDrawableObject {
       } else {
         this.graphics.alpha = 0;
         this.text.alpha = 0;
+        this.queueWasEmpty = true;
       }
     }
   }
