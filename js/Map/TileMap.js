@@ -29,8 +29,6 @@ export default class TileMap {
     this.placeRooms();
     this.placeGems();
 
-    console.log(this.gems);
-
     this.setPlayerStartLocation();
   }
 
@@ -91,7 +89,6 @@ export default class TileMap {
       let locInUse = false;
       do {
         const loc = room.getRandomLocInRoom();
-        console.log(loc);
         locInUse = this.isLocUsed(loc);
 
         if (!locInUse) {
@@ -106,7 +103,6 @@ export default class TileMap {
   getTotalGemCount() {
     let totalGemCount = 0;
     this.gemCount.forEach((value) => { totalGemCount += value; });
-    console.log(totalGemCount);
 
     return totalGemCount;
   }

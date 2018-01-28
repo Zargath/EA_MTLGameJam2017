@@ -26,5 +26,12 @@ const getSpriteIndex = (gemType) => {
 export default class Gem extends Phaser.Sprite {
   constructor({ game, x, y, gemType }) {
     super(game, x, y, 'gems', getSpriteIndex(gemType));
+
+    this.setupGem();
+  }
+
+  setupGem() {
+    this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    this.body.setSize(32, 32);
   }
 }

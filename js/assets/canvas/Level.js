@@ -2,7 +2,8 @@
 import Hud from '../../Hud';
 import TileMap from '../../Map/TileMap';
 import Player from '../sprites/player';
-import { IntroductionText }  from '../../Text'
+import Gem from '../sprites/gem';
+import { IntroductionText } from '../../Text'
 
 import tiles from '../tiles_x.png';
 import gems from '../gems.png';
@@ -14,38 +15,38 @@ import Characters from '../characters';
 
 
 class Level extends Phaser.State {
-	
+
 	/**
 	 * Level.
 	 */
 	constructor() {
-		
+
 		super();
-		
-		
+
+
 		this.cursors = null;
-		
+
 	}
-	
+
 	init() {
-		
+
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
-		
+
 	}
-	
-	preload () {
-		
+
+	preload() {
+
 		this.preloadImages();
-		
+
 	}
-	
+
 	create() {
 		this.customCreate();
-		
+
 	}
-	
+
 	/* state-methods-begin */
 	render() {
 		// this.game.debug.body(this.player);
@@ -58,7 +59,7 @@ class Level extends Phaser.State {
 
 	preloadImages() {
 		this.game.load.image('tiles', tiles);
-		this.game.load.image('gems', gems);
+		this.game.load.spritesheet('gems', gems, 32, 32);
 		this.game.load.spritesheet('help', 'js/assets/help.png', 40, 20)
 		this.game.load.spritesheet('warrior_m', Characters.WarriorM, 32, 32, 12);
 	}
@@ -72,6 +73,13 @@ class Level extends Phaser.State {
 		this.layer.resizeWorld();
 		map.setCollisionBetween(1, 1);
 
+		// Add Gems
+		mapData.gems.forEach((gem) => {
+			const gemLoc = gem.location.getPixelLocation();
+			const gemSprite = new Gem({ game: this.game, x: gemLoc.x, y: gemLoc.y, gemType: gem.gemType });
+			this.game.add.existing(gemSprite);
+		});
+
 		// Add player
 		const playerLoc = mapData.playerStartLocation.getPixelLocation();
 		this.player = new Player({ game: this.game, x: playerLoc.x, y: playerLoc.y });
@@ -79,12 +87,12 @@ class Level extends Phaser.State {
 		this.game.add.existing(this.player);
 
 		this.Hud = new Hud(this.game);
-		for(let i = 0; i < IntroductionText.length; i += 1) {
+		for (let i = 0; i < IntroductionText.length; i += 1) {
 			this.Hud.addMessageToQueue(IntroductionText[i]);
 		}
 	}
 	/* state-methods-end */
-	
+
 }
 /* --- end generated code --- */
 export default Level
